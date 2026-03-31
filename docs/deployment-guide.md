@@ -1,5 +1,7 @@
 # Deployment Guide
 
+> **Web version available:** The full platform compatibility and deployment guide is available at [constitutionbuilder.ai/deploy.html](https://constitutionbuilder.ai/deploy.html) with interactive platform cards and a searchable table of contents.
+
 ## How to Deploy an AI Constitution in Your Organization
 
 This guide covers the practical mechanics of getting a constitution into production — from a markdown file on your screen to a system-level instruction governing AI behavior across your enterprise.

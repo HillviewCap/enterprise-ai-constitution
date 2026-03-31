@@ -2,6 +2,8 @@
 
 An open framework for governing AI behavior at the organizational level.
 
+**[constitutionbuilder.ai](https://constitutionbuilder.ai)** — Build your constitution in the browser with real-time token tracking.
+
 ![The Enterprise AI Constitution — Layered AI Governance](docs/enterprise-ai-constitution-large.png)
 
 ---
@@ -52,19 +54,19 @@ Each layer narrows the scope. Each layer builds on the one above. The AI that re
 
 ### 1. Build your constitution
 
-Run the interactive [constitution builder](tools/) to generate your constitution with real-time token tracking:
+Use the **[web-based builder](https://constitutionbuilder.ai)** to create your constitution interactively with real-time token tracking, rendered preview, and markdown export.
 
-```bash
-python tools/constitution-builder.py
-```
-
-Or start with the [corporate constitution template](templates/corporate-constitution.md) and fill in your organization's details manually.
+Or start with the [corporate constitution template](templates/corporate-constitution.md) and fill in your organization's details manually. A [CLI builder](tools/) is also available.
 
 ### 2. Customize for your teams
 
-Use the builder with `--tier 2` or the [team constitution template](templates/team-constitution.md) to create function-specific addenda.
+Use the builder's Tier 2 (Team) option or the [team constitution template](templates/team-constitution.md) to create function-specific addenda.
 
-### 3. Validate
+### 3. Deploy
+
+Follow the **[platform deployment guide](https://constitutionbuilder.ai/deploy.html)** to deploy your constitution to Claude Code, Copilot, Cursor, Bedrock, ChatGPT Enterprise, and 15+ other platforms.
+
+### 4. Validate
 
 Run the [test suite](tests/) against your constitution to verify it behaves as expected.
 
@@ -78,7 +80,8 @@ enterprise-ai-constitution/
 ├── templates/          # Ready-to-use fill-in-the-blank templates
 ├── examples/           # Anonymized real-world examples
 ├── tests/              # Test suite for validating a constitution
-├── tools/              # Interactive constitution builder with token tracking
+├── tools/              # CLI constitution builder with token tracking
+├── site/               # constitutionbuilder.ai web application
 └── docs/               # Deep-dive articles and deployment guides
 ```
 
@@ -106,6 +109,8 @@ You are free to share, adapt, and build upon this standard for any purpose, incl
 
 ## Status
 
-This standard is under active development. Version 1.0 reflects real-world production deployment and validation at scale, but the framework continues to evolve based on community feedback and operational experience.
+This standard is under active development. Version 1.0 has been validated in production with **Claude Code** using managed `CLAUDE.md` files and `managed-settings.json`. Platform mappings for other tools are based on documented capabilities as of March 2026.
 
 If you're using this framework — or considering it — we'd like to hear from you. Open an issue, submit a PR, or start a discussion.
+
+**Web:** [constitutionbuilder.ai](https://constitutionbuilder.ai) | **Deployment Guide:** [constitutionbuilder.ai/deploy.html](https://constitutionbuilder.ai/deploy.html)

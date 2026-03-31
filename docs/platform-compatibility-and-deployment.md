@@ -1,5 +1,7 @@
 # Platform Compatibility Guide
 
+> **Web version available:** This guide is available in an interactive format at [constitutionbuilder.ai/deploy.html](https://constitutionbuilder.ai/deploy.html) with expandable platform cards and testing status badges.
+
 ## Deploying Layer 1 (Corporate Constitution) Across Enterprise AI Tools
 
 Layer 1 — the Corporate Identity layer — is the outermost ring of the [Context Onion](context-onion.md). It defines who the organization is, what it does, what regulations govern it, and what behavioral constraints apply to every AI interaction. It is read-only, non-negotiable, and deployed at the system level.
