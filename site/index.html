@@ -16,8 +16,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=JetBrains+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&display=swap" rel="stylesheet">
-<!-- Marked.js for markdown rendering -->
+<!-- Marked.js for markdown rendering + DOMPurify for XSS protection -->
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
 <style>
 /* ================================================================
    DESIGN TOKENS — matched to infographic SVG palette
@@ -777,7 +778,7 @@ function updateTokenDisplay() {
   // Render markdown preview
   const wrap = document.getElementById('previewWrap');
   if (md) {
-    wrap.innerHTML = '<div class="md-rendered">' + marked.parse(md) + '</div>';
+    wrap.innerHTML = '<div class="md-rendered">' + DOMPurify.sanitize(marked.parse(md)) + '</div>';
   } else {
     wrap.innerHTML = '<div class="preview-placeholder">Your constitution will appear here as you fill in each section.</div>';
   }
