@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deployment Guide — Enterprise AI Constitution</title>
+<meta name="description" content="How to deploy your AI constitution across enterprise platforms — Claude Code, Copilot, Cursor, Bedrock, ChatGPT Enterprise, and more.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=JetBrains+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-root: #0a0e17;
+  --bg-surface: #0d1929;
+  --bg-elevated: #111f36;
+  --bg-input: #0b1322;
+  --border: #1a2744;
+  --text-primary: #f0f4f8;
+  --text-secondary: #8a9bb0;
+  --text-muted: #5e7089;
+  --text-bright: #c9d6e3;
+  --blue: #3b82f6;
+  --blue-dim: rgba(59,130,246,0.12);
+  --blue-text: #93c5fd;
+  --purple: #8b5cf6;
+  --purple-dim: rgba(139,92,246,0.12);
+  --purple-text: #c4b5fd;
+  --teal: #64c9cf;
+  --teal-dim: rgba(100,201,207,0.12);
+  --amber: #f59e0b;
+  --amber-dim: rgba(245,158,11,0.15);
+  --green: #22c55e;
+  --red: #ef4444;
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Consolas', monospace;
+  --radius: 8px;
+  --radius-lg: 12px;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-root);
+  color: var(--text-primary);
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.015) 1px, transparent 0);
+  background-size: 40px 40px;
+  pointer-events: none; z-index: 0;
+}
+
+a { color: var(--teal); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Top bar ── */
+.topbar {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(10,14,23,0.88); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border); padding: 14px 0;
+}
+.topbar__inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.topbar__brand {
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--font-display); font-size: 1.05rem; font-weight: 600;
+  color: var(--text-primary); text-decoration: none;
+}
+.topbar__links { display: flex; align-items: center; gap: 20px; font-size: 0.875rem; }
+.topbar__links a { color: var(--text-secondary); transition: color 0.15s; }
+.topbar__links a:hover { color: var(--text-primary); text-decoration: none; }
+.topbar__links a.active { color: var(--teal); }
+
+/* ── Layout ── */
+.page { max-width: 960px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+/* ── Hero ── */
+.hero { padding: 64px 0 48px; border-bottom: 1px solid var(--border); margin-bottom: 48px; }
+.hero__label {
+  display: inline-block; font-family: var(--font-mono); font-size: 0.72rem;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal);
+  background: var(--teal-dim); border: 1px solid rgba(100,201,207,0.2);
+  border-radius: 100px; padding: 5px 14px; margin-bottom: 20px;
+}
+.hero h1 { font-family: var(--font-display); font-size: 2.2rem; font-weight: 700; margin-bottom: 12px; }
+.hero p { font-size: 1.05rem; color: var(--text-secondary); max-width: 680px; line-height: 1.7; }
+
+/* ── Callout ── */
+.callout {
+  border-radius: var(--radius-lg); padding: 20px 24px;
+  margin: 32px 0; font-size: 0.92rem; line-height: 1.6;
+}
+.callout--info { background: var(--blue-dim); border: 1px solid rgba(59,130,246,0.2); }
+.callout--info .callout__title { color: var(--blue); }
+.callout--warn { background: var(--amber-dim); border: 1px solid rgba(245,158,11,0.2); }
+.callout--warn .callout__title { color: var(--amber); }
+.callout__title {
+  font-family: var(--font-display); font-weight: 600; font-size: 0.95rem;
+  margin-bottom: 6px;
+}
+.callout p { color: var(--text-secondary); margin: 0; }
+.callout a { color: var(--blue-text); }
+
+/* ── TOC ── */
+.toc {
+  background: var(--bg-surface); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 24px 28px; margin: 32px 0;
+}
+.toc__title { font-family: var(--font-display); font-size: 0.95rem; font-weight: 600; margin-bottom: 12px; color: var(--text-primary); }
+.toc ul { list-style: none; margin: 0; }
+.toc li { margin: 4px 0; }
+.toc a { font-size: 0.88rem; color: var(--text-secondary); }
+.toc a:hover { color: var(--text-primary); }
+.toc .toc__sub { margin-left: 20px; }
+.toc .toc__sub a { font-size: 0.82rem; color: var(--text-muted); }
+
+/* ── Content ── */
+.content h2 {
+  font-family: var(--font-display); font-size: 1.4rem; font-weight: 600;
+  color: var(--text-primary); margin: 56px 0 16px;
+  padding-bottom: 10px; border-bottom: 1px solid var(--border);
+}
+.content h2:first-child { margin-top: 0; }
+
+.content h3 {
+  font-family: var(--font-display); font-size: 1.05rem; font-weight: 600;
+  color: var(--blue); margin: 36px 0 10px;
+}
+
+.content h4 {
+  font-family: var(--font-body); font-size: 0.92rem; font-weight: 600;
+  color: var(--text-bright); margin: 24px 0 8px;
+}
+
+.content p { color: var(--text-secondary); margin: 10px 0; font-size: 0.92rem; }
+.content strong { color: var(--text-primary); }
+
+.content ul, .content ol { margin: 10px 0 10px 24px; color: var(--text-secondary); font-size: 0.92rem; }
+.content li { margin: 5px 0; }
+.content li strong { color: var(--text-bright); }
+
+/* ── Platform cards ── */
+.platform-card {
+  background: var(--bg-surface); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); margin: 24px 0; overflow: hidden;
+}
+.platform-card__header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 24px; border-bottom: 1px solid var(--border);
+  cursor: pointer; user-select: none;
+}
+.platform-card__header:hover { background: rgba(255,255,255,0.02); }
+.platform-card__name { font-family: var(--font-display); font-size: 1rem; font-weight: 600; flex: 1; }
+.platform-card__badge {
+  font-family: var(--font-mono); font-size: 0.68rem;
+  padding: 3px 10px; border-radius: 100px;
+}
+.platform-card__badge--tested { background: rgba(34,197,94,0.12); color: var(--green); border: 1px solid rgba(34,197,94,0.2); }
+.platform-card__badge--mapped { background: var(--blue-dim); color: var(--blue-text); border: 1px solid rgba(59,130,246,0.2); }
+.platform-card__toggle {
+  color: var(--text-muted); transition: transform 0.2s var(--ease);
+  font-size: 1.2rem; line-height: 1;
+}
+.platform-card__toggle.open { transform: rotate(90deg); }
+
+.platform-card__body {
+  display: none; padding: 20px 24px;
+}
+.platform-card__body.open { display: block; }
+
+.platform-card__table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin: 12px 0; }
+.platform-card__table th {
+  text-align: left; padding: 6px 12px; border-bottom: 1px solid var(--border);
+  color: var(--text-muted); font-weight: 500; font-size: 0.78rem;
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+.platform-card__table td { padding: 8px 12px; border-bottom: 1px solid var(--border); color: var(--text-secondary); }
+.platform-card__table td:first-child { color: var(--text-bright); font-weight: 500; white-space: nowrap; }
+
+.platform-card__impl { margin-top: 12px; }
+.platform-card__impl-title { font-family: var(--font-display); font-size: 0.85rem; font-weight: 600; color: var(--text-bright); margin-bottom: 6px; }
+.platform-card__impl ol { margin: 0 0 0 20px; font-size: 0.85rem; color: var(--text-secondary); }
+.platform-card__impl li { margin: 4px 0; }
+
+.platform-card code {
+  font-family: var(--font-mono); font-size: 0.82em;
+  background: rgba(255,255,255,0.06); padding: 2px 6px;
+  border-radius: 4px; color: var(--teal);
+}
+
+/* ── Tier table ── */
+.tier-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.88rem; }
+.tier-table th {
+  text-align: left; padding: 10px 14px; border-bottom: 2px solid var(--border);
+  color: var(--text-primary); font-weight: 600;
+}
+.tier-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--text-secondary); vertical-align: top; }
+.tier-table td:first-child { font-weight: 600; white-space: nowrap; }
+.tier-table tr td:first-child { color: var(--text-bright); }
+
+/* ── Token table ── */
+.token-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.88rem; }
+.token-table th { text-align: left; padding: 8px 14px; border-bottom: 2px solid var(--border); color: var(--text-primary); font-weight: 600; }
+.token-table td { padding: 8px 14px; border-bottom: 1px solid var(--border); color: var(--text-secondary); }
+.token-table td:last-child { font-family: var(--font-mono); font-size: 0.85rem; }
+
+/* ── Footer ── */
+.site-footer {
+  border-top: 1px solid var(--border); padding: 48px 0;
+  text-align: center; position: relative; z-index: 1; margin-top: 64px;
+}
+.site-footer p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px; }
+.site-footer a { color: var(--text-secondary); }
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .hero { padding: 40px 0 32px; }
+  .hero h1 { font-size: 1.6rem; }
+  .platform-card__header { padding: 14px 16px; }
+  .platform-card__body { padding: 16px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="topbar">
+  <div class="topbar__inner">
+    <a class="topbar__brand" href="index.html">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Enterprise AI Constitution
+    </a>
+    <div class="topbar__links">
+      <a href="index.html">Builder</a>
+      <a href="deploy.html" class="active">Deploy</a>
+      <a href="https://github.com/HillviewCap/enterprise-ai-constitution" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page">
+
+  <div class="hero">
+    <span class="hero__label">Platform Compatibility & Deployment</span>
+    <h1>Deploy Your Constitution</h1>
+    <p>Your constitution is a markdown file. Getting it into production means placing it where the AI reads its system instructions — before the first user prompt. This guide maps that process to every major enterprise AI platform.</p>
+  </div>
+
+  <div class="callout callout--warn">
+    <div class="callout__title">Testing Status</div>
+    <p>The Enterprise AI Constitution standard has been validated in production with <strong>Claude Code</strong> (Anthropic) using managed <code>CLAUDE.md</code> files and <code>managed-settings.json</code>. Platform mappings for other tools are based on documented platform capabilities and deployment mechanisms as of March 2026. If you deploy to another platform, we welcome your feedback via <a href="https://github.com/HillviewCap/enterprise-ai-constitution/issues">GitHub Issues</a>.</p>
+  </div>
+
+  <div class="toc">
+    <div class="toc__title">Contents</div>
+    <ul>
+      <li><a href="#why-layer-1">Why Deploy Layer 1 First</a></li>
+      <li><a href="#methods">Deployment Methods</a></li>
+      <li><a href="#tokens">Token Budget Considerations</a></li>
+      <li><a href="#coding-agents">AI Coding Agents</a>
+        <ul class="toc__sub">
+          <li><a href="#claude-code">Claude Code</a></li>
+          <li><a href="#copilot">GitHub Copilot</a></li>
+          <li><a href="#cursor">Cursor</a></li>
+          <li><a href="#windsurf">Windsurf</a></li>
+          <li><a href="#amazon-q">Amazon Q Developer</a></li>
+          <li><a href="#gemini-code">Gemini Code Assist</a></li>
+          <li><a href="#jetbrains">JetBrains AI</a></li>
+          <li><a href="#tabnine">Tabnine</a></li>
+          <li><a href="#agents-md">AGENTS.md</a></li>
+        </ul>
+      </li>
+      <li><a href="#chat-platforms">Enterprise Chat & Assistant Platforms</a>
+        <ul class="toc__sub">
+          <li><a href="#ms-copilot">Microsoft Copilot</a></li>
+          <li><a href="#chatgpt">ChatGPT Enterprise</a></li>
+          <li><a href="#gemini-workspace">Google Gemini</a></li>
+          <li><a href="#bedrock">Amazon Bedrock</a></li>
+          <li><a href="#claude-enterprise">Claude Enterprise</a></li>
+          <li><a href="#salesforce">Salesforce Agentforce</a></li>
+          <li><a href="#servicenow">ServiceNow</a></li>
+          <li><a href="#watsonx">IBM watsonx</a></li>
+          <li><a href="#cohere">Cohere</a></li>
+        </ul>
+      </li>
+      <li><a href="#orchestration">Agent Orchestration Frameworks</a></li>
+      <li><a href="#strategy">Cross-Platform Deployment Strategy</a></li>
+      <li><a href="#adapting">Adapting for Different Platforms</a></li>
+      <li><a href="#verification">Verification</a></li>
+      <li><a href="#troubleshooting">Troubleshooting</a></li>
+    </ul>
+  </div>
+
+  <div class="content">
+
+    <h2 id="why-layer-1">Why Deploy Layer 1 First</h2>
+    <p>Layer 1 — the Corporate Constitution — provides the highest-impact governance improvement with the lowest implementation complexity.</p>
+    <ul>
+      <li><strong>Without Layer 1:</strong> Every AI session starts from zero. The AI has no organizational identity, no regulatory awareness, no data classification framework, and no basis for refusing inappropriate requests.</li>
+      <li><strong>With Layer 1:</strong> Every AI session starts with identity, authority limits, data handling rules, and behavioral mandates already loaded — even if Layers 2 and 3 are never implemented.</li>
+    </ul>
+    <p>Layer 1 alone transforms AI from "general-purpose tool an employee happens to use at work" to "organizational participant operating within defined boundaries."</p>
+
+    <h2 id="methods">Deployment Methods</h2>
+
+    <p>Enterprise AI tools fall into four categories based on how they accept constitutional instructions:</p>
+
+    <table class="tier-table">
+      <thead><tr><th>Category</th><th>Mechanism</th><th>Deployment Method</th></tr></thead>
+      <tbody>
+        <tr><td>File-based</td><td>Instruction files in repos or on endpoints</td><td>Deploy constitution as a managed file</td></tr>
+        <tr><td>API-level</td><td>System prompt parameter in API calls</td><td>Inject constitution server-side in application code</td></tr>
+        <tr><td>Builder UI</td><td>Agent/assistant configuration interfaces</td><td>Paste constitution into instructions field</td></tr>
+        <tr><td>Policy-layer</td><td>Guardrails, trust layers, governance gateways</td><td>Encode constitutional rules as platform policies</td></tr>
+      </tbody>
+    </table>
+    <p>Most organizations use tools across multiple categories. The constitution content is the same — only the delivery mechanism changes.</p>
+
+    <h2 id="tokens">Token Budget Considerations</h2>
+    <p>AI models have finite context windows. The constitution consumes tokens from that budget:</p>
+    <table class="token-table">
+      <thead><tr><th>Constitution type</th><th>Approximate tokens</th></tr></thead>
+      <tbody>
+        <tr><td>Corporate only (minimal)</td><td>800 - 1,200</td></tr>
+        <tr><td>Corporate only (full)</td><td>1,500 - 2,500</td></tr>
+        <tr><td>Corporate + Team</td><td>2,000 - 3,500</td></tr>
+        <tr><td>Corporate + Team + Practitioner</td><td>2,500 - 4,500</td></tr>
+      </tbody>
+    </table>
+    <p>The <a href="index.html">Constitution Builder</a> tracks token count in real time as you fill in each section, so you can stay within your deployment target's limits.</p>
+
+    <h2 id="coding-agents">AI Coding Agents</h2>
+    <p>These tools operate in developer environments. Layer 1 is deployed as managed instruction files on endpoints or in repositories.</p>
+
+    <!-- Claude Code -->
+    <div class="platform-card" id="claude-code">
+      <div class="platform-card__header" onclick="toggleCard(this)">
+        <span class="platform-card__name">Claude Code (Anthropic)</span>
+        <span class="platform-card__badge platform-card__badge--tested">Tested in production</span>
+        <span class="platform-card__toggle">&#9654;</span>
+      </div>
+      <div class="platform-card__body">
+        <table class="platform-card__table">
+          <tr><td>File</td><td><code>CLAUDE.md</code> (project root) for project-level; <code>~/.claude/CLAUDE.md</code> for user-level</td></tr>
+          <tr><td>Enterprise lock</td><td><code>managed-settings.json</code> deployed at OS level</td></tr>
+          <tr><td>Lock file paths</td><td>Linux: <code>/etc/claude-code/managed-settings.json</code><br>macOS: <code>/Library/Application Support/ClaudeCode/managed-settings.json</code></td></tr>
+          <tr><td>Drop-in directory</td><td><code>managed-settings.d/*.json</code> for modular policy deployment</td></tr>
+          <tr><td>Deployment tools</td><td>MDM (Intune, JAMF), configuration management (Ansible, Chef, Puppet)</td></tr>
+          <tr><td>Hierarchy</td><td>Server-managed > OS-level managed-settings > user settings > project settings</td></tr>
+          <tr><td>Layer 1 approach</td><td>Deploy the corporate constitution as a managed <code>CLAUDE.md</code> at the enterprise level via MDM. Use <code>managed-settings.json</code> to enforce behavioral policies. The constitution text goes in CLAUDE.md; the enforcement rules go in managed-settings.</td></tr>
+        </table>
+        <div class="platform-card__impl">
+          <div class="platform-card__impl-title">Implementation</div>
+          <ol>
+            <li>Author the corporate constitution using the <a href="index.html">Builder</a></li>
+            <li>Deploy to all managed endpoints via MDM or configuration management</li>
+            <li>Lock file permissions so users cannot modify</li>
+            <li>Use <code>managed-settings.json</code> to enforce tool-level restrictions that complement the constitution</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- GitHub Copilot -->
+    <div class="platform-card" id="copilot">
+      <div class="platform-card__header" onclick="toggleCard(this)">
+        <span class="platform-card__name">GitHub Copilot</span>
+        <span class="platform-card__badge platform-card__badge--mapped">Platform mapped</span>
+        <span class="platform-card__toggle">&#9654;</span>
+      </div>
+      <div class="platform-card__body">
+        <table class="platform-card__table">
+          <tr><td>File</td><td><code>.github/copilot-instructions.md</code> (repo root)</td></tr>
+          <tr><td>Granular files</td><td><code>.github/instructions/**/*.instructions.md</code></td></tr>
+          <tr><td>Enterprise lock</td><td>Enterprise-level policies in GitHub Enterprise Cloud admin; cascade: Enterprise > Organization > Repo > Personal</td></tr>
+          <tr><td>Layer 1 approach</td><td>Set organization-level instructions in the GitHub Enterprise admin console. These apply to all repos and cannot be overridden. Supplement with repo-level files for Layer 2.</td></tr>
+        </table>
+        <div class="platform-card__impl">
+          <div class="platform-card__impl-title">Implementation</div>
+          <ol>
+            <li>Adapt the corporate constitution for Copilot's instruction format</li>
+            <li>Deploy organization-level instructions via GitHub Enterprise Cloud admin</li>
+            <li>Enforce at enterprise level so org admins cannot relax the policy</li>
+            <li>Use repo-level <code>copilot-instructions.md</code> for Layer 2 context only</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cursor -->
+    <div class="platform-card" id="cursor">
+      <div class="platform-card__header" onclick="toggleCard(this)">
+        <span class="platform-card__name">Cursor</span>
+        <span class="platform-card__badge platform-card__badge--mapped">Platform mapped</span>
+        <span class="platform-card__toggle">&#9654;</span>
+      </div>
+      <div class="platform-card__body">
+        <table class="platform-card__table">
+          <tr><td>File</td><td><code>.cursor/rules/*.md</code> (project-level rules with glob matching)</td></tr>
+          <tr><td>Enterprise lock</td><td>Business/Enterprise dashboard distributes team-wide rules via deeplinks</td></tr>
+          <tr><td>Admin controls</td><td>SSO (SAML), SCIM, RBAC, MDM policies; admins control model access, MCP servers, extensions</td></tr>
+          <tr><td>Layer 1 approach</td><td>Define the corporate constitution as team-wide rules in the Cursor Enterprise dashboard. Auto-distributes to all team members. Per-project <code>.cursor/rules/</code> files serve as Layer 2.</td></tr>
+        </table>
+        <div class="platform-card__impl">
+          <div class="platform-card__impl-title">Implementation</div>
+          <ol>
+            <li>Author constitutional rules in the Cursor Enterprise admin dashboard</li>
+            <li>Distribute to all seats via centralized team rules</li>
+            <li>Use project-level <code>.cursor/rules/*.md</code> for team-specific context</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <!-- Windsurf -->
+    <div class="platform-card" id="windsurf">
+      <div class="platform-card__header" onclick="toggleCard(this)">
+        <span class="platform-card__name">Windsurf (Codeium)</span>
+        <span class="platform-card__badge platform-card__badge--mapped">Platform mapped</span>
+        <span class="platform-card__toggle">&#9654;</span>
+      </div>
+      <div class="platform-card__body">
+        <table class="platform-card__table">
+          <tr><td>File</td><td><code>.windsurf/rules/*.md</code> (project-level)</td></tr>
+          <tr><td>Enterprise lock</td><td>System-level workflows deployed to OS-specific directories (read-only)</td></tr>
+          <tr><td>Lock paths</td><td>macOS: <code>/Library/Application Support/Windsurf/workflows/*.md</code>; deployable via MDM</td></tr>
+          <tr><td>Layer 1 approach</td><td>Deploy the corporate constitution as a system-level workflow file via MDM. Read-only. Project-level files serve as Layer 2.</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Amazon Q -->
+    <div class="platform-card" id="amazon-q">
+      <div class="platform-card__header" onclick="toggleCard(this)">
+        <span class="platform-card__name">Amazon Q Developer</span>
+        <span class="platform-card__badge platform-card__badge--mapped">Platform mapped</span>
+        <span class="platform-card__toggle">&#9654;</span>
+      </div>
+      <div class="platform-card__body">
+        <table class="platform-card__table">
+          <tr><td>File</td><td><code>.amazonq/rules/*.md</code> (project root)</td></tr>
+          <tr><td>Enterprise lock</td><td>AWS Organizations SCPs control feature availability org-wide</td></tr>
+          <tr><td>Layer 1 approach</td><td>Use SCPs in AWS Organizations to enforce baseline AI governance. Deploy customizations centrally via AWS console. Supplement with repo-level rules for project context.</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Gemini Code Assist -->
+    <div class="platform-card" id="gemini-code">
+      <div class="platform-card__header" onclick="toggleCard(this)">
+        <span class="platform-card__name">Google Gemini Code Assist</span>
+        <span class="platform-card__badge platform-card__badge--mapped">Platform mapped</span>
+        <span class="platform-card__toggle">&#9654;</span>
+      </div>
+      <div class="platform-card__body">
+        <table class="platform-card__table">
+          <tr><td>File</td><td><code>.gemini/styleguide.md</code> (repo root)</td></tr>
+          <tr><td>Enterprise lock</td><td>Group-level style guides in Google Cloud console (Enterprise tier)</td></tr>
+          <tr><td>Layer 1 approach</td><td>Define the corporate constitution as a group-level style guide via Google Cloud console. Repo-level files are merged with (not override) the group guide.</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- JetBrains -->
+    <div class="platform-card" id="jetbrains">
+      <div class="platform-card__header" onclick="toggleCard(this)">
+        <span class="platform-card__name">JetBrains AI Assistant</span>
+        <span class="platform-card__badge platform-card__badge--mapped">Platform mapped</span>
+        <span class="platform-card__toggle">&#9654;</span>
+      </div>
+      <div class="platform-card__body">
+        <table class="platform-card__table">
+          <tr><td>File</td><td><code>.aiassistant/rules/*.md</code> (project root)</td></tr>
+          <tr><td>Enterprise lock</td><td>JetBrains IDE Services manages AI profiles centrally</td></tr>
+          <tr><td>Layer 1 approach</td><td>Deploy centrally managed AI profiles with constitutional language via IDE Services. Supplement with project-level rules files for Layer 2.</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Tabnine -->
+    <div class="platform-card" id="tabnine">
+      <div class="platform-card__header" onclick="toggleCard(this)">
+        <span class="platform-card__name">Tabnine</span>
+        <span class="platform-card__badge platform-card__badge--mapped">Platform mapped</span>
+        <span class="platform-card__toggle">&#9654;</span>
+      </div>
+      <div class="platform-card__body">
+        <table class="platform-card__table">
+          <tr><td>File</td><td><code>/.tabnine/guidelines/*.md</code> (per-project) or <code>~/.tabnine/guidelines/*.md</code> (global)</td></tr>
+          <tr><td>Enterprise lock</td><td>Admin UI > Agent Guidelines; admin guidelines override personal files</td></tr>
+          <tr><td>Layer 1 approach</td><td>Deploy the corporate constitution as organization-wide guidelines in the Tabnine Admin UI. These take precedence over all user-level guidelines.</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- AGENTS.md -->
+    <div class="platform-card" id="agents-md">
+      <div class="platform-card__header" onclick="toggleCard(this)">
+        <span class="platform-card__name">AGENTS.md (Cross-Tool Convention)</span>
+        <span class="platform-card__badge platform-card__badge--mapped">Platform mapped</span>
+        <span class="platform-card__toggle">&#9654;</span>
+      </div>
+      <div class="platform-card__body">
+        <table class="platform-card__table">
+          <tr><td>File</td><td><code>AGENTS.md</code> (repository root)</td></tr>
+          <tr><td>Supported by</td><td>GitHub Copilot, Cursor, Windsurf, OpenAI Codex, Zed, Aider, Semgrep, Warp, Factory</td></tr>
+          <tr><td>Governed by</td><td>Agentic AI Foundation (Linux Foundation)</td></tr>
+          <tr><td>Layer 1 approach</td><td>Deploy an <code>AGENTS.md</code> containing the corporate constitution at the root of every repo. Tool-agnostic baseline. Best used as a complement to tool-specific mechanisms — has no enterprise lock since it lives in the repo.</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <h2 id="chat-platforms">Enterprise Chat & Assistant Platforms</h2>
+    <p>These platforms serve non-developer employees through conversational interfaces. Layer 1 is deployed through admin consoles, API configurations, or agent builder UIs.</p>
+
+    <!-- Microsoft Copilot -->
+    <div class="platform-card" id="ms-copilot">
+      <div class="platform-card__header" onclick="toggleCard(this)">
+        <span class="platform-card__name">Microsoft Copilot (M365 + Copilot Studio)</span>
+        <span class="platform-card__badge platform-card__badge--mapped">Platform mapped</span>
+        <span class="platform-card__toggle">&#9654;</span>
+      </div>
+      <div class="platform-card__body">
+        <table class="platform-card__table">
+          <tr><td>Prompt mechanism</td><td>Declarative Agent instructions in Copilot Studio</td></tr>
+          <tr><td>Enterprise lock</td><td>Copilot Control System (CCS) + Agent 365 unified control plane; Entra ID governance</td></tr>
+          <tr><td>Layer 1 approach</td><td>Create a base Declarative Agent in Copilot Studio whose instructions contain the constitution. Use CCS policies to enforce organizational boundaries. All custom agents inherit organizational policies.</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- ChatGPT Enterprise -->
+    <div class="platform-card" id="chatgpt">
+      <div class="platform-card__header" onclick="toggleCard(this)">
+        <span class="platform-card__name">ChatGPT Enterprise (OpenAI)</span>
+        <span class="platform-card__badge platform-card__badge--mapped">Platform mapped</span>
+        <span class="platform-card__toggle">&#9654;</span>
+      </div>
+      <div class="platform-card__body">
+        <table class="platform-card__table">
+          <tr><td>Prompt mechanism</td><td>Custom GPTs with natural-language instructions; API developer messages</td></tr>
+          <tr><td>Enterprise lock</td><td>Domain allowlists, sharing scope restrictions, group permissions</td></tr>
+          <tr><td>Layer 1 approach</td><td>Create an org-standard Custom GPT whose instructions contain the constitution. Restrict the workspace so employees use it by default. For API: inject as the <code>developer</code> message server-side.</td></tr>
+        </table>
+        <div class="callout callout--info" style="margin:12px 0 0;">
+          <p><strong>Limitation:</strong> OpenAI does not currently support forcing all users to use a specific GPT. Users can create personal GPTs that lack constitutional instructions. Mitigate via policy + monitoring.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gemini Workspace -->
+    <div class="platform-card" id="gemini-workspace">
+      <div class="platform-card__header" onclick="toggleCard(this)">
+        <span class="platform-card__name">Google Gemini for Workspace</span>
+        <span class="platform-card__badge platform-card__badge--mapped">Platform mapped</span>
+        <span class="platform-card__toggle">&#9654;</span>
+      </div>
+      <div class="platform-card__body">
+        <table class="platform-card__table">
+          <tr><td>Prompt mechanism</td><td>Admin Console toggles per OU; Vertex AI Agent Builder for custom agents</td></tr>
+          <tr><td>Enterprise lock</td><td>Google Admin Console, DLP policies, IAM</td></tr>
+          <tr><td>Layer 1 approach</td><td>Control Gemini access per OU in Admin Console. Build custom agents in Vertex AI Agent Builder with constitutional instructions. Model Armor enforces prompt injection protection at the platform level.</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Amazon Bedrock -->
+    <div class="platform-card" id="bedrock">
+      <div class="platform-card__header" onclick="toggleCard(this)">
+        <span class="platform-card__name">Amazon Bedrock</span>
+        <span class="platform-card__badge platform-card__badge--mapped">Platform mapped</span>
+        <span class="platform-card__toggle">&#9654;</span>
+      </div>
+      <div class="platform-card__body">
+        <table class="platform-card__table">
+          <tr><td>Prompt mechanism</td><td>System prompts set server-side via API; agent instructions in Bedrock console</td></tr>
+          <tr><td>Enterprise lock</td><td>IAM-enforced mandatory guardrails; AWS Organizations Bedrock Policies</td></tr>
+          <tr><td>Layer 1 approach</td><td>Create Bedrock Guardrails encoding the constitutional rules. Enforce via IAM policies so they apply to every inference call across the organization. System prompts are set server-side and never exposed to end users.</td></tr>
+        </table>
+        <div class="callout callout--info" style="margin:12px 0 0;">
+          <p>This is the <strong>strongest centralized enforcement model</strong> among the platforms listed. Guardrails are deterministic and IAM-enforced.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Claude Enterprise -->
+    <div class="platform-card" id="claude-enterprise">
+      <div class="platform-card__header" onclick="toggleCard(this)">
+        <span class="platform-card__name">Claude Enterprise (claude.ai Teams/Enterprise)</span>
+        <span class="platform-card__badge platform-card__badge--mapped">Platform mapped</span>
+        <span class="platform-card__toggle">&#9654;</span>
+      </div>
+      <div class="platform-card__body">
+        <table class="platform-card__table">
+          <tr><td>Prompt mechanism</td><td>Projects with custom instructions on claude.ai; API <code>system</code> parameter</td></tr>
+          <tr><td>Enterprise lock</td><td>Managed policy settings; Compliance API for monitoring</td></tr>
+          <tr><td>Layer 1 approach</td><td>Create organization-standard Projects with constitutional instructions. For API: inject as the <code>system</code> parameter. For Claude Code: deploy via managed-settings and managed CLAUDE.md. Use Compliance API for monitoring.</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Salesforce -->
+    <div class="platform-card" id="salesforce">
+      <div class="platform-card__header" onclick="toggleCard(this)">
+        <span class="platform-card__name">Salesforce Agentforce</span>
+        <span class="platform-card__badge platform-card__badge--mapped">Platform mapped</span>
+        <span class="platform-card__toggle">&#9654;</span>
+      </div>
+      <div class="platform-card__body">
+        <table class="platform-card__table">
+          <tr><td>Prompt mechanism</td><td>Agent instructions + Agent Script (deterministic guardrails)</td></tr>
+          <tr><td>Enterprise lock</td><td>Einstein Trust Layer; agents inherit Salesforce user permission model</td></tr>
+          <tr><td>Layer 1 approach</td><td>Encode constitutional behavioral rules as Agent Script constraints (deterministic, not probabilistic). Set organizational identity in agent instructions. Einstein Trust Layer enforces PII masking, toxicity detection, and audit trails.</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- ServiceNow -->
+    <div class="platform-card" id="servicenow">
+      <div class="platform-card__header" onclick="toggleCard(this)">
+        <span class="platform-card__name">ServiceNow AI Agents</span>
+        <span class="platform-card__badge platform-card__badge--mapped">Platform mapped</span>
+        <span class="platform-card__toggle">&#9654;</span>
+      </div>
+      <div class="platform-card__body">
+        <table class="platform-card__table">
+          <tr><td>Prompt mechanism</td><td>Workflow-embedded agent configurations</td></tr>
+          <tr><td>Enterprise lock</td><td>AI Control Tower — cross-platform governance</td></tr>
+          <tr><td>Layer 1 approach</td><td>Embed constitutional rules in ServiceNow agent configurations. AI Control Tower can discover and manage agents from ServiceNow, Microsoft, and other platforms — potential single pane of glass for Layer 1 enforcement.</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- watsonx -->
+    <div class="platform-card" id="watsonx">
+      <div class="platform-card__header" onclick="toggleCard(this)">
+        <span class="platform-card__name">IBM watsonx</span>
+        <span class="platform-card__badge platform-card__badge--mapped">Platform mapped</span>
+        <span class="platform-card__toggle">&#9654;</span>
+      </div>
+      <div class="platform-card__body">
+        <table class="platform-card__table">
+          <tr><td>Prompt mechanism</td><td>Versioned prompt templates in watsonx.ai Prompt Lab</td></tr>
+          <tr><td>Enterprise lock</td><td>watsonx.governance — dedicated governance product</td></tr>
+          <tr><td>Layer 1 approach</td><td>Author the constitution as a versioned prompt template. Use watsonx.governance for lifecycle management and compliance monitoring. Agent monitoring tracks behaviors against constitutional rules in real time.</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Cohere -->
+    <div class="platform-card" id="cohere">
+      <div class="platform-card__header" onclick="toggleCard(this)">
+        <span class="platform-card__name">Cohere (North)</span>
+        <span class="platform-card__badge platform-card__badge--mapped">Platform mapped</span>
+        <span class="platform-card__toggle">&#9654;</span>
+      </div>
+      <div class="platform-card__body">
+        <table class="platform-card__table">
+          <tr><td>Prompt mechanism</td><td>"Preamble" system prompt via API; safety mode settings</td></tr>
+          <tr><td>Enterprise lock</td><td>North platform with built-in security and compliance</td></tr>
+          <tr><td>Layer 1 approach</td><td>Set the constitution as the preamble in all API calls. Controlled server-side — end users never see or modify it. Supports private cloud and on-premises deployment for data sovereignty.</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <h2 id="orchestration">Agent Orchestration Frameworks</h2>
+    <p>Used by development teams building custom AI applications. Layer 1 is injected at the application layer or enforced by platform governance features.</p>
+    <ul>
+      <li><strong>LangChain / LangSmith</strong> — Publish as a versioned prompt template in LangChain Hub. LangSmith Fleet provides the centralized registry.</li>
+      <li><strong>Amazon Bedrock AgentCore</strong> — Encode as Cedar policies. The Gateway enforces every tool call deterministically before execution. Framework-agnostic.</li>
+      <li><strong>Google Vertex AI Agent Builder</strong> — Set constitutional system instructions. Use IAM to scope agent identities as first-class principals.</li>
+      <li><strong>Microsoft Agent Framework</strong> — Deploy via Azure governance controls. Prompt shields protect against injection. Purview integration for compliance.</li>
+      <li><strong>Databricks / Mosaic AI</strong> — Unity Catalog for unified governance. Mosaic AI Gateway provides the centralized entry point with rate limiting and permissions.</li>
+      <li><strong>Snowflake Cortex</strong> — Agent instructions via Cortex APIs. AI Governance Gateway enforces access control. All processing stays within Snowflake's security perimeter.</li>
+      <li><strong>Palantir AIP</strong> — The strongest ontological governance model. Constitutional rules embedded in the platform's security model. Supports air-gapped environments.</li>
+    </ul>
+
+    <h2 id="strategy">Cross-Platform Deployment Strategy</h2>
+    <p>For organizations using multiple AI tools, deploy Layer 1 in priority tiers:</p>
+
+    <h3>Tier A — Immediate (highest impact, lowest effort)</h3>
+    <p>These mechanisms lock the constitution at the platform level. Users cannot bypass them.</p>
+    <ol>
+      <li><strong>Claude Code</strong> — Deploy <code>managed-settings.json</code> + managed <code>CLAUDE.md</code> via MDM</li>
+      <li><strong>Amazon Bedrock</strong> — IAM-enforced guardrails via AWS Organizations</li>
+      <li><strong>Tabnine</strong> — Admin guidelines in the Admin UI (override user-level)</li>
+      <li><strong>GitHub Copilot</strong> — Enterprise-level policies in admin console</li>
+    </ol>
+
+    <h3>Tier B — Standard (requires admin console configuration)</h3>
+    <ol start="5">
+      <li><strong>Microsoft Copilot</strong> — Copilot Control System policies + Declarative Agent instructions</li>
+      <li><strong>ChatGPT Enterprise</strong> — Corporate Custom GPT + workspace restrictions</li>
+      <li><strong>Cursor</strong> — Enterprise dashboard team-wide rules</li>
+      <li><strong>Salesforce Agentforce</strong> — Agent Script + Einstein Trust Layer</li>
+      <li><strong>Windsurf</strong> — OS-level system workflows via MDM</li>
+    </ol>
+
+    <h3>Tier C — Application-layer (requires development work)</h3>
+    <ol start="10">
+      <li><strong>Any API-based deployment</strong> — Inject constitution as system/developer message server-side</li>
+      <li><strong>LangChain/LangSmith</strong> — Publish as versioned Hub template</li>
+      <li><strong>Custom internal platforms</strong> — Embed in prompt management layer</li>
+    </ol>
+
+    <h3>Tier D — Supplementary (defense in depth)</h3>
+    <ol start="13">
+      <li><strong>AGENTS.md</strong> — Commit to all repos; protect via branch rules</li>
+      <li><strong>Repo-level instruction files</strong> — For Layer 2 context; not a substitute for enterprise enforcement</li>
+      <li><strong>ServiceNow AI Control Tower</strong> — Cross-platform governance overlay</li>
+    </ol>
+
+    <h2 id="adapting">Adapting for Different Platforms</h2>
+    <h4>Token / length constraints</h4>
+    <p>If a platform constrains system prompt length, prioritize in this order:</p>
+    <ol>
+      <li>Sections 01 (Identity) and 02 (Organizational Context) — the constitutional foundation</li>
+      <li>Sections 04 (Data Classification) and 05 (Behavioral Mandates) — the enforcement core</li>
+      <li>Sections 06-08 (Misuse, Refusal, Scope) — can be condensed</li>
+    </ol>
+
+    <h4>Platform-specific formatting</h4>
+    <ul>
+      <li><strong>API-based:</strong> Plain text or Markdown in the system message</li>
+      <li><strong>File-based:</strong> Markdown files</li>
+      <li><strong>Builder UIs:</strong> Paste into the instructions field</li>
+      <li><strong>Policy engines:</strong> Translate behavioral rules into platform-native policy syntax</li>
+    </ul>
+
+    <h4>What stays constant across all platforms</h4>
+    <ol>
+      <li><strong>Organizational identity</strong> — Who the AI works for</li>
+      <li><strong>Regulatory context</strong> — What frameworks govern the work</li>
+      <li><strong>Authority hierarchy</strong> — This constitution overrides all other instructions</li>
+      <li><strong>Data classification</strong> — How to handle information at different sensitivity levels</li>
+      <li><strong>Behavioral baseline</strong> — Non-negotiable rules for every session</li>
+    </ol>
+
+    <h2 id="verification">Verification</h2>
+    <p>After deploying Layer 1 to any platform, validate using the <a href="https://github.com/HillviewCap/enterprise-ai-constitution/tree/main/tests" target="_blank">test suite</a>:</p>
+    <ul>
+      <li><strong>Identity test:</strong> Ask the AI "Who do you work for?" — it should name the organization</li>
+      <li><strong>Authority test:</strong> Attempt to override a constitutional rule — the AI should refuse</li>
+      <li><strong>Regulatory awareness test:</strong> Present a regulatory scenario — the AI should flag compliance implications</li>
+      <li><strong>Data classification test:</strong> Present information at various levels — the AI should apply correct handling rules</li>
+    </ul>
+
+    <h2 id="troubleshooting">Troubleshooting</h2>
+
+    <h4>Users report the AI is "too restrictive"</h4>
+    <ul>
+      <li>Review refusal logs for false positives</li>
+      <li>Check if data classification tiers are too aggressive for the team's actual work</li>
+      <li>Consider adding a team-level constitution that clarifies approved workflows</li>
+    </ul>
+
+    <h4>Users report the AI "doesn't know who it is"</h4>
+    <ul>
+      <li>Verify the constitution is actually being loaded (check system prompt, file path, MDM deployment)</li>
+      <li>Test with TC-01 (identity check) from the test suite</li>
+      <li>Check for token truncation — if the constitution exceeds the limit, it may be silently truncated</li>
+    </ul>
+
+    <h4>Prompt injection tests fail</h4>
+    <ul>
+      <li>Verify the injection detection language in Section 06 is present and not truncated</li>
+      <li>Test with simpler injection attempts first</li>
+      <li>Consider strengthening the injection detection language or adding examples</li>
+    </ul>
+
+    <p style="margin-top:40px;color:var(--text-muted);font-size:0.85rem;font-style:italic;">This guide covers platforms as of March 2026. The enterprise AI governance landscape is evolving rapidly. Review platform capabilities quarterly and update deployment mechanisms as platforms add new governance features.</p>
+
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div style="max-width:960px;margin:0 auto;padding:0 24px;">
+    <p>Enterprise AI Constitution Standard &mdash; <a href="https://github.com/HillviewCap/enterprise-ai-constitution" target="_blank" rel="noopener">Open Source on GitHub</a></p>
+    <p>Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>. Build upon it freely.</p>
+  </div>
+</footer>
+
+<script>
+function toggleCard(header) {
+  const body = header.nextElementSibling;
+  const toggle = header.querySelector('.platform-card__toggle');
+  body.classList.toggle('open');
+  toggle.classList.toggle('open');
+}
+</script>
+</body>
+</html>
