@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Projects — Hillview Capital</title>
+<title>My Other Projects — Hillview Capital</title>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-NKNHG710YG"></script>
 <script>
@@ -101,6 +101,35 @@ a:hover { text-decoration: underline; }
 .hero__link:hover { border-color: var(--text-muted); color: var(--text-primary); text-decoration: none; }
 .hero__link svg { flex-shrink: 0; }
 
+/* ── About section ── */
+.about-section {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px 32px;
+  margin-bottom: 48px;
+  position: relative;
+  overflow: hidden;
+}
+.about-section::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px; height: 100%;
+  background: var(--teal);
+}
+.about-section h2 {
+  font-family: var(--font-display);
+  font-size: 1.2rem; font-weight: 600;
+  margin-bottom: 12px;
+}
+.about-section p {
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+.about-section p + p { margin-top: 10px; }
+
 /* ── Project cards ── */
 .projects { display: flex; flex-direction: column; gap: 24px; padding-bottom: 64px; }
 
@@ -196,7 +225,7 @@ a:hover { text-decoration: underline; }
     <div class="topbar__links">
       <a href="index.html">Builder</a>
       <a href="deploy.html">Deploy</a>
-      <a href="projects.html" class="active">Projects</a>
+      <a href="projects.html" class="active">My Other Projects</a>
       <a href="https://github.com/HillviewCap/enterprise-ai-constitution" target="_blank" rel="noopener">GitHub</a>
     </div>
   </div>
@@ -205,7 +234,7 @@ a:hover { text-decoration: underline; }
 <div class="page">
 
   <div class="hero">
-    <h1>Projects</h1>
+    <h1>My Other Projects</h1>
     <p>Open-source tools and platforms for security, infrastructure, and AI governance.</p>
     <div class="hero__links">
       <a class="hero__link" href="https://linkedin.com/in/zcorum" target="_blank" rel="noopener">
@@ -217,6 +246,12 @@ a:hover { text-decoration: underline; }
         GitHub
       </a>
     </div>
+  </div>
+
+  <div class="about-section">
+    <h2>About Me</h2>
+    <p>I am an OT cybersecurity consultant specializing in ICS risk assessments, corporate governance, architecture reviews, and compliance gap assessments for critical infrastructure environments.</p>
+    <p>If you made it this far feel free to talk to me about Bonsai, Whiskey, or being a parent &mdash; all things that consume my life outside of cybersecurity.</p>
   </div>
 
   <div class="projects">
@@ -294,6 +329,44 @@ a:hover { text-decoration: underline; }
       <div class="project-card__url">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
         github.com/HillviewCap/hapr
+      </div>
+    </a>
+
+    <!-- llms-text.ai -->
+    <a class="project-card" href="https://llms-text.ai/" target="_blank" rel="noopener">
+      <div class="project-card__accent" style="background: var(--blue);"></div>
+      <div class="project-card__header">
+        <span class="project-card__name">llms-text.ai</span>
+        <span class="project-card__badge" style="background: var(--blue-dim); color: var(--blue-text); border: 1px solid rgba(59,130,246,0.2);">Resource</span>
+      </div>
+      <div class="project-card__desc">A resource for the llms.txt standard — helping websites communicate with large language models through a structured, machine-readable format.</div>
+      <div class="project-card__tags">
+        <span class="project-card__tag">LLMs</span>
+        <span class="project-card__tag">AI Standards</span>
+        <span class="project-card__tag">Machine-Readable</span>
+      </div>
+      <div class="project-card__url">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+        llms-text.ai
+      </div>
+    </a>
+
+    <!-- InfraSecAlliance Blog -->
+    <a class="project-card" href="https://blog.infrasecalliance.org" target="_blank" rel="noopener">
+      <div class="project-card__accent" style="background: var(--teal);"></div>
+      <div class="project-card__header">
+        <span class="project-card__name">InfraSecAlliance Blog</span>
+        <span class="project-card__badge" style="background: var(--teal-dim); color: var(--teal); border: 1px solid rgba(100,201,207,0.2);">Blog</span>
+      </div>
+      <div class="project-card__desc">Infrastructure security insights, OT cybersecurity perspectives, and industry analysis for critical infrastructure professionals.</div>
+      <div class="project-card__tags">
+        <span class="project-card__tag">Blog</span>
+        <span class="project-card__tag">OT Security</span>
+        <span class="project-card__tag">Critical Infrastructure</span>
+      </div>
+      <div class="project-card__url">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+        blog.infrasecalliance.org
       </div>
     </a>
 
