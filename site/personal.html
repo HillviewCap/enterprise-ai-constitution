@@ -690,10 +690,10 @@ function renderIdentity() {
   return `<div class="step-prompt">Let's start with the basics. How would you introduce yourself to an AI that's going to work alongside you every day?</div>` +
     inputField('name', 'Full name', 'Alex Chen') +
     inputField('preferred_name', 'What should AI call you?', 'Alex', 'Leave blank to use your full name') +
-    inputField('role', 'Role(s)', 'OT Cybersecurity Consultant, Bonsai Enthusiast', 'Professional title, side projects, personal identity') +
-    textareaField('bio', 'One-paragraph bio', 'I work at the intersection of cybersecurity and industrial control systems...', 'The "elevator pitch" version of you') +
-    tagField('expertise', 'Domain expertise', 'e.g., OT Security, Python, Risk Assessment') +
-    tagField('learning', 'Currently learning', 'e.g., Rust, AI Governance, Japanese Joinery');
+    inputField('role', 'Role(s)', 'Product Manager, Weekend Woodworker', 'Professional title, side projects, personal identity') +
+    textareaField('bio', 'One-paragraph bio', 'I lead a product team at a mid-stage startup and spend weekends building furniture...', 'The "elevator pitch" version of you') +
+    tagField('expertise', 'Domain expertise', 'e.g., Project Management, Python, Data Analysis') +
+    tagField('learning', 'Currently learning', 'e.g., Rust, AI/ML, Photography');
 }
 
 function renderBeliefs() {
@@ -729,10 +729,10 @@ function renderGoals() {
   });
 
   return `<div class="step-prompt">What are you trying to accomplish? Think big picture and near-term.</div>` +
-    textareaField('mission', 'Professional mission', 'To secure critical infrastructure by bridging the gap between IT security and OT operations...', 'Your "why"') +
-    inputField('goals_short', 'Short-term goals (this month)', 'Complete NIST assessment for client X') +
-    inputField('goals_medium', 'Medium-term goals (this quarter/year)', 'Launch Constitution Builder v2, publish 3 blog posts') +
-    inputField('goals_long', 'Long-term goals (career arc)', 'Become the go-to resource for OT cybersecurity governance') +
+    textareaField('mission', 'Professional mission', 'To build products that make complex workflows simple and accessible...', 'Your "why"') +
+    inputField('goals_short', 'Short-term goals (this month)', 'Ship the v2 onboarding flow, finish quarterly review') +
+    inputField('goals_medium', 'Medium-term goals (this quarter/year)', 'Grow active users 30%, publish 3 blog posts') +
+    inputField('goals_long', 'Long-term goals (career arc)', 'Lead a product org, launch a side business') +
     `<div class="form-group"><label class="form-label">Active Projects</label>
     ${projectRows}
     <button class="list-input__add" onclick="addProject()">+ Add project</button></div>`;
@@ -761,10 +761,10 @@ function renderWorking() {
 
 function renderKnowledge() {
   return `<div class="step-prompt">Help the AI calibrate. Where are you an expert, where are you solid, and where are you learning?</div>` +
-    tagField('deep_expertise', 'Deep expertise — "Be terse here, I know this cold"', 'e.g., ICS Security, Python, Risk Assessment') +
-    tagField('competent', 'Competent — "Be precise, I know the basics"', 'e.g., React, Cloud Architecture, SQL') +
-    tagField('learning_areas', 'Learning — "Explain thoroughly, I\'m building understanding"', 'e.g., Rust, AI/ML, Japanese Joinery') +
-    tagField('mental_models', 'Frameworks & mental models you use', 'e.g., OODA Loop, Defense in Depth, NIST CSF');
+    tagField('deep_expertise', 'Deep expertise — "Be terse here, I know this cold"', 'e.g., Python, SQL, Product Strategy') +
+    tagField('competent', 'Competent — "Be precise, I know the basics"', 'e.g., React, Cloud Architecture, Data Modeling') +
+    tagField('learning_areas', 'Learning — "Explain thoroughly, I\'m building understanding"', 'e.g., Rust, AI/ML, Systems Design') +
+    tagField('mental_models', 'Frameworks & mental models you use', 'e.g., Jobs To Be Done, First Principles, Pareto Principle');
 }
 
 function renderBoundaries() {
