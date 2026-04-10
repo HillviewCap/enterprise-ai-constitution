@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Enterprise AI Constitution Builder</title>
+<title>Constitution Builder — Enterprise & Personal AI Governance</title>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-NKNHG710YG"></script>
 <script>
@@ -65,49 +65,69 @@
    DESIGN TOKENS — matched to infographic SVG palette
    ================================================================ */
 :root {
-  --bg-root: #0a0e17;
-  --bg-surface: #0d1929;
-  --bg-elevated: #111f36;
-  --bg-input: #0b1322;
-  --border: #1a2744;
-  --border-subtle: rgba(255,255,255,0.06);
+  /* ── Backgrounds ── */
+  --bg-root:      #f6f1eb;
+  --bg-surface:   #ffffff;
+  --bg-elevated:  #faf7f3;
+  --bg-input:     #f0ebe4;
+  --border:       #d9cfc3;
+  --border-subtle: rgba(120,100,80,0.08);
 
-  --text-primary: #f0f4f8;
-  --text-secondary: #8a9bb0;
-  --text-muted: #5e7089;
-  --text-bright: #c9d6e3;
-  --text-inverse: #0a0e17;
+  /* ── Text ── */
+  --text-primary:   #2c2418;
+  --text-secondary: #5c4f3e;
+  --text-muted:     #8a7e6f;
+  --text-bright:    #3d3225;
+  --text-inverse:   #faf7f3;
 
-  /* Layer colors from infographic */
-  --blue: #3b82f6;
-  --blue-dim: rgba(59,130,246,0.12);
-  --blue-glow: rgba(59,130,246,0.25);
-  --blue-text: #93c5fd;
+  /* ── Accent: Primary (forest sage) ── */
+  --sage:       #5a7a64;
+  --sage-dim:   rgba(90,122,100,0.10);
+  --sage-glow:  rgba(90,122,100,0.20);
+  --sage-text:  #4a6853;
 
-  --purple: #8b5cf6;
-  --purple-dim: rgba(139,92,246,0.12);
-  --purple-glow: rgba(139,92,246,0.25);
-  --purple-text: #c4b5fd;
+  /* ── Accent: Secondary (warm clay) ── */
+  --clay:       #b07850;
+  --clay-dim:   rgba(176,120,80,0.10);
+  --clay-glow:  rgba(176,120,80,0.18);
+  --clay-text:  #96633f;
 
-  --teal: #64c9cf;
-  --teal-dim: rgba(100,201,207,0.12);
-  --teal-glow: rgba(100,201,207,0.25);
-  --teal-text: #64c9cf;
+  /* ── Accent: Tertiary (deep indigo) ── */
+  --indigo:       #4a5578;
+  --indigo-dim:   rgba(74,85,120,0.10);
+  --indigo-glow:  rgba(74,85,120,0.18);
+  --indigo-text:  #3d4766;
 
-  /* Active tier colors — set by JS */
-  --tier-color: var(--teal);
-  --tier-dim: var(--teal-dim);
-  --tier-glow: var(--teal-glow);
-  --tier-text: var(--teal-text);
+  /* ── Enterprise tier colors (muted versions) ── */
+  --blue:        #4a6fa5;
+  --blue-dim:    rgba(74,111,165,0.10);
+  --blue-glow:   rgba(74,111,165,0.18);
+  --blue-text:   #3b5d8f;
 
-  --amber: #f59e0b;
-  --red: #ef4444;
-  --red-dim: rgba(239,68,68,0.15);
-  --green: #22c55e;
+  --purple:      #7b6b99;
+  --purple-dim:  rgba(123,107,153,0.10);
+  --purple-glow: rgba(123,107,153,0.18);
+  --purple-text: #6a5b87;
 
-  --gauge-ok: var(--teal);
-  --gauge-warn: #f59e0b;
-  --gauge-danger: #ef4444;
+  --teal:        #5a8a7a;
+  --teal-dim:    rgba(90,138,122,0.10);
+  --teal-glow:   rgba(90,138,122,0.18);
+  --teal-text:   #4a7768;
+
+  /* Active tier colors — set by JS, default to sage */
+  --tier-color: var(--sage);
+  --tier-dim: var(--sage-dim);
+  --tier-glow: var(--sage-glow);
+  --tier-text: var(--sage-text);
+
+  --amber:  #c4883a;
+  --red:    #b85450;
+  --red-dim: rgba(184,84,80,0.10);
+  --green:  #5a8a5e;
+
+  --gauge-ok:     var(--sage);
+  --gauge-warn:   #c4883a;
+  --gauge-danger: #b85450;
 
   --font-display: 'Fraunces', Georgia, serif;
   --font-body: 'DM Sans', system-ui, sans-serif;
@@ -131,19 +151,10 @@ body {
   min-height: 100vh;
 }
 
-/* Dot grid */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.015) 1px, transparent 0);
-  background-size: 40px 40px;
-  pointer-events: none;
-  z-index: 0;
-}
+/* Removed dot grid overlay */
 
 h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
-a { color: var(--teal); text-decoration: none; }
+a { color: var(--sage); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
 .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
@@ -154,7 +165,7 @@ a:hover { text-decoration: underline; }
    ================================================================ */
 .topbar {
   position: sticky; top: 0; z-index: 100;
-  background: rgba(10,14,23,0.88);
+  background: rgba(246,241,235,0.92);
   backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border);
   padding: 14px 0;
@@ -176,18 +187,18 @@ a:hover { text-decoration: underline; }
 .hero::before {
   content: ''; position: absolute; top: -180px; left: 50%; transform: translateX(-50%);
   width: 700px; height: 500px;
-  background: radial-gradient(ellipse, var(--blue-glow) 0%, transparent 70%);
-  opacity: 0.3; pointer-events: none;
+  background: radial-gradient(ellipse, rgba(176,120,80,0.08) 0%, transparent 70%);
+  pointer-events: none;
 }
 .hero__label {
   display: inline-block; font-family: var(--font-mono); font-size: 0.72rem; font-weight: 500;
-  letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal);
-  background: var(--teal-dim); border: 1px solid rgba(100,201,207,0.2);
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--sage);
+  background: var(--sage-dim); border: 1px solid rgba(90,122,100,0.2);
   border-radius: 100px; padding: 6px 16px; margin-bottom: 24px;
 }
 .hero h1 { font-size: clamp(2rem, 4.5vw, 3.2rem); font-weight: 700; margin-bottom: 16px; position: relative; }
 .hero h1 span {
-  background: linear-gradient(135deg, var(--teal) 0%, var(--blue) 100%);
+  background: linear-gradient(135deg, var(--sage) 0%, var(--clay) 100%);
   -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
 }
 .hero__sub {
@@ -217,24 +228,24 @@ a:hover { text-decoration: underline; }
 .circle-hit { fill: transparent; cursor: pointer; }
 
 /* Glow filter for selected ring */
-.ring-glow { filter: drop-shadow(0 0 8px var(--blue-glow)); }
+.ring-glow { filter: drop-shadow(0 0 8px var(--sage-glow)); }
 
 /* Start button below circles */
 .hero__cta-wrap { text-align: center; margin-top: 12px; }
 .hero__cta {
   display: inline-flex; align-items: center; gap: 8px;
-  background: var(--blue); color: #fff;
+  background: var(--sage); color: var(--text-inverse);
   font-family: var(--font-body); font-weight: 600; font-size: 1rem;
   padding: 14px 32px; border-radius: 100px; border: none; cursor: pointer;
   transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease), background 0.2s;
 }
-.hero__cta:hover { transform: translateY(-1px); box-shadow: 0 8px 30px var(--blue-glow); }
+.hero__cta:hover { transform: translateY(-1px); box-shadow: 0 8px 24px var(--sage-glow); }
 .hero__cta svg { transition: transform 0.2s var(--ease); }
 .hero__cta:hover svg { transform: translateX(3px); }
-.hero__cta.tier-2 { background: var(--purple); }
-.hero__cta.tier-2:hover { box-shadow: 0 8px 30px var(--purple-glow); }
-.hero__cta.tier-3 { background: var(--teal); color: var(--text-inverse); }
-.hero__cta.tier-3:hover { box-shadow: 0 8px 30px var(--teal-glow); }
+.hero__cta.tier-2 { background: var(--indigo); }
+.hero__cta.tier-2:hover { box-shadow: 0 8px 24px var(--indigo-glow); }
+.hero__cta.tier-3 { background: var(--clay); color: var(--text-inverse); }
+.hero__cta.tier-3:hover { box-shadow: 0 8px 24px var(--clay-glow); }
 
 /* Tier description text below circles */
 .tier-desc {
@@ -299,7 +310,7 @@ a:hover { text-decoration: underline; }
 @media (max-width: 960px) { .builder__layout { grid-template-columns: 1fr; } }
 
 /* Panels */
-.panel { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+.panel { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; box-shadow: 0 1px 3px rgba(44,36,24,0.06), 0 4px 12px rgba(44,36,24,0.04); }
 .panel__header {
   display: flex; align-items: center; justify-content: space-between;
   padding: 18px 24px; border-bottom: 1px solid var(--border);
@@ -497,7 +508,7 @@ a:hover { text-decoration: underline; }
 .export-actions { display: flex; gap: 10px; flex-wrap: wrap; }
 .export-result { margin-top: 16px; padding: 12px 16px; border-radius: var(--radius); font-size: 0.82rem; display: none; }
 .export-result.show { display: block; }
-.export-result.success { background: rgba(34,197,94,0.1); color: var(--green); border: 1px solid rgba(34,197,94,0.2); }
+.export-result.success { background: rgba(90,138,94,0.1); color: var(--green); border: 1px solid rgba(90,138,94,0.2); }
 
 .step-content { display: none; }
 .step-content.active { display: block; }
@@ -518,6 +529,31 @@ a:hover { text-decoration: underline; }
 }
 .site-footer p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px; }
 .site-footer a { color: var(--text-secondary); }
+
+/* ================================================================
+   MODE SELECTOR
+   ================================================================ */
+.mode-selector { display: flex; gap: 24px; justify-content: center; margin-bottom: 48px; flex-wrap: wrap; }
+.mode-card {
+  display: block; text-decoration: none; color: inherit;
+  background: var(--bg-surface); border: 2px solid var(--border);
+  border-radius: var(--radius-lg); padding: 28px 32px; max-width: 340px; flex: 1;
+  transition: all 0.25s var(--ease); text-align: left;
+  box-shadow: 0 1px 3px rgba(44,36,24,0.06), 0 4px 12px rgba(44,36,24,0.04);
+}
+.mode-card:hover { transform: translateY(-3px); text-decoration: none; }
+.mode-card--enterprise { border-color: rgba(90,122,100,0.3); }
+.mode-card--enterprise:hover { border-color: var(--sage); box-shadow: 0 8px 30px rgba(90,122,100,0.15); }
+.mode-card--personal { border-color: rgba(176,120,80,0.3); }
+.mode-card--personal:hover { border-color: #b07850; box-shadow: 0 8px 30px rgba(176,120,80,0.15); }
+.mode-card__icon { width: 40px; height: 40px; border-radius: var(--radius); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+.mode-card--enterprise .mode-card__icon { background: rgba(90,122,100,0.10); color: var(--sage); }
+.mode-card--personal .mode-card__icon { background: rgba(176,120,80,0.10); color: #b07850; }
+.mode-card__title { font-family: var(--font-display); font-size: 1.15rem; font-weight: 600; margin-bottom: 8px; }
+.mode-card__desc { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 14px; }
+.mode-card__cta { font-size: 0.82rem; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
+.mode-card--enterprise .mode-card__cta { color: var(--sage); }
+.mode-card--personal .mode-card__cta { color: #b07850; }
 
 /* ================================================================
    ANIMATIONS
@@ -552,12 +588,14 @@ a:hover { text-decoration: underline; }
   <div class="container topbar__inner">
     <a class="topbar__brand" href="#" onclick="goHome(); return false;" style="text-decoration:none;color:inherit;">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      Enterprise AI Constitution
+      Constitution Builder
     </a>
     <div class="topbar__links">
       <span class="saved-badge" id="savedBadge">saved</span>
+      <a href="index.html" class="active">Enterprise</a>
+      <a href="personal.html">Personal</a>
       <a href="deploy.html">Deploy</a>
-      <a href="projects.html">My Other Projects</a>
+      <a href="projects.html">Projects</a>
       <a href="https://github.com/HillviewCap/enterprise-ai-constitution" target="_blank" rel="noopener">GitHub</a>
     </div>
   </div>
@@ -575,24 +613,40 @@ a:hover { text-decoration: underline; }
       The Enterprise AI <span>Constitution</span>
     </h1>
     <p class="hero__sub anim-fade-up anim-delay-2">
-      Organizational identity embedded at deployment, so the AI arrives knowing where it is, who it works for, and what constraints apply. Select a layer to begin.
+      Structured context for AI — at the organizational level or the personal level. Choose your path.
     </p>
+
+    <!-- Mode selector -->
+    <div class="mode-selector anim-fade-up anim-delay-2">
+      <div class="mode-card mode-card--enterprise" style="cursor:default;">
+        <div class="mode-card__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div class="mode-card__title">Enterprise Constitution</div>
+        <div class="mode-card__desc">Governance for your organization. Define identity, authority, data tiers, and behavioral rules for AI across teams.</div>
+        <div class="mode-card__cta">Select a layer below <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg></div>
+      </div>
+      <a class="mode-card mode-card--personal" href="personal.html">
+        <div class="mode-card__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <div class="mode-card__title">Personal Constitution</div>
+        <div class="mode-card__desc">A portable document that tells every AI who you are, what you believe, and how you work. Export to every platform.</div>
+        <div class="mode-card__cta">Start building <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></div>
+      </a>
+    </div>
 
     <!-- Interactive concentric circles -->
     <div class="circles-nav anim-fade-up anim-delay-3" id="circlesNav">
       <svg viewBox="0 0 480 480">
         <defs>
           <radialGradient id="gOuter" cx="50%" cy="50%" r="50%">
-            <stop offset="0" stop-color="#3b82f6" stop-opacity="0.10"/>
-            <stop offset="1" stop-color="#3b82f6" stop-opacity="0.01"/>
+            <stop offset="0" stop-color="#4a6fa5" stop-opacity="0.10"/>
+            <stop offset="1" stop-color="#4a6fa5" stop-opacity="0.01"/>
           </radialGradient>
           <radialGradient id="gMiddle" cx="50%" cy="50%" r="50%">
-            <stop offset="0" stop-color="#8b5cf6" stop-opacity="0.16"/>
-            <stop offset="1" stop-color="#8b5cf6" stop-opacity="0.02"/>
+            <stop offset="0" stop-color="#7b6b99" stop-opacity="0.16"/>
+            <stop offset="1" stop-color="#7b6b99" stop-opacity="0.02"/>
           </radialGradient>
           <radialGradient id="gInner" cx="50%" cy="50%" r="50%">
-            <stop offset="0" stop-color="#64c9cf" stop-opacity="0.24"/>
-            <stop offset="1" stop-color="#64c9cf" stop-opacity="0.04"/>
+            <stop offset="0" stop-color="#5a8a7a" stop-opacity="0.24"/>
+            <stop offset="1" stop-color="#5a8a7a" stop-opacity="0.04"/>
           </radialGradient>
           <filter id="glowT">
             <feGaussianBlur stdDeviation="3" result="b"/>
@@ -603,35 +657,35 @@ a:hover { text-decoration: underline; }
         <g transform="translate(240, 240)">
           <!-- Layer 1: Corporate (outermost) -->
           <g class="circle-layer" id="ring1" onclick="selectTier(1)" opacity="0.65">
-            <circle cx="0" cy="0" r="210" fill="url(#gOuter)" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="7 4"/>
+            <circle cx="0" cy="0" r="210" fill="url(#gOuter)" stroke="#4a6fa5" stroke-width="1.5" stroke-dasharray="7 4"/>
             <circle cx="0" cy="0" r="210" class="circle-hit"/>
-            <text x="0" y="-190" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="11" font-weight="700" fill="#3b82f6" class="circle-label">LAYER 1: CORPORATE CONSTITUTION</text>
-            <text x="0" y="-174" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#e2e8f0" class="circle-label">Identity &middot; Regulations &middot; Data Tiers &middot; Behavioral Rules</text>
+            <text x="0" y="-190" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="11" font-weight="700" fill="#4a6fa5" class="circle-label">LAYER 1: CORPORATE CONSTITUTION</text>
+            <text x="0" y="-174" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#3d3225" class="circle-label">Identity &middot; Regulations &middot; Data Tiers &middot; Behavioral Rules</text>
           </g>
 
           <!-- Layer 2: Team (middle) -->
           <g class="circle-layer" id="ring2" onclick="selectTier(2)" opacity="0.8">
-            <circle cx="0" cy="0" r="142" fill="url(#gMiddle)" stroke="#8b5cf6" stroke-width="1.5" stroke-dasharray="5 3"/>
+            <circle cx="0" cy="0" r="142" fill="url(#gMiddle)" stroke="#7b6b99" stroke-width="1.5" stroke-dasharray="5 3"/>
             <circle cx="0" cy="0" r="142" class="circle-hit"/>
-            <text x="0" y="-122" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="11" font-weight="700" fill="#8b5cf6" class="circle-label">LAYER 2: TEAM / FUNCTION</text>
-            <text x="0" y="-108" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#e2e8f0" class="circle-label">Procedures &middot; Risk Profile &middot; Approved Tools</text>
+            <text x="0" y="-122" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="11" font-weight="700" fill="#7b6b99" class="circle-label">LAYER 2: TEAM / FUNCTION</text>
+            <text x="0" y="-108" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="9" fill="#3d3225" class="circle-label">Procedures &middot; Risk Profile &middot; Approved Tools</text>
           </g>
 
           <!-- Layer 3: Practitioner (innermost) -->
           <g class="circle-layer" id="ring3" onclick="selectTier(3)" opacity="0.9">
-            <circle cx="0" cy="0" r="76" fill="url(#gInner)" stroke="#64c9cf" stroke-width="2" filter="url(#glowT)"/>
+            <circle cx="0" cy="0" r="76" fill="url(#gInner)" stroke="#5a8a7a" stroke-width="2" filter="url(#glowT)"/>
             <circle cx="0" cy="0" r="76" class="circle-hit"/>
-            <text x="0" y="-56" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="10" font-weight="700" fill="#64c9cf" class="circle-label">LAYER 3: PRACTITIONER</text>
-            <text x="0" y="-42" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#e2e8f0" class="circle-label">Role &middot; Environment &middot; Decision Authority</text>
+            <text x="0" y="-56" text-anchor="middle" font-family="'DM Sans', sans-serif" font-size="10" font-weight="700" fill="#5a8a7a" class="circle-label">LAYER 3: PRACTITIONER</text>
+            <text x="0" y="-42" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8.5" fill="#3d3225" class="circle-label">Role &middot; Environment &middot; Decision Authority</text>
           </g>
 
           <!-- Center: AI Agent -->
-          <circle cx="0" cy="0" r="36" fill="#0d1929" stroke="#64c9cf" stroke-width="1.5" filter="url(#glowT)"/>
-          <text x="0" y="-4" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#64c9cf" letter-spacing="1">AI</text>
-          <text x="0" y="10" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8" fill="#64c9cf" opacity="0.8" letter-spacing="0.5">AGENT</text>
+          <circle cx="0" cy="0" r="36" fill="#faf7f3" stroke="#5a8a7a" stroke-width="1.5" filter="url(#glowT)"/>
+          <text x="0" y="-4" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#5a8a7a" letter-spacing="1">AI</text>
+          <text x="0" y="10" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8" fill="#5a8a7a" opacity="0.8" letter-spacing="0.5">AGENT</text>
 
           <!-- Direction label -->
-          <text x="0" y="232" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8" fill="#e2e8f0" letter-spacing="1" opacity="0.5">EACH LAYER INHERITS FROM AND IS CONSTRAINED BY THE LAYER ABOVE</text>
+          <text x="0" y="232" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="8" fill="#5c4f3e" letter-spacing="1" opacity="0.5">EACH LAYER INHERITS FROM AND IS CONSTRAINED BY THE LAYER ABOVE</text>
         </g>
       </svg>
     </div>
@@ -829,9 +883,9 @@ function updateTokenDisplay() {
 // Tier colors
 // ──────────────────────────────────────────────────────────
 const TIER_COLORS = {
-  1: { color: '#3b82f6', dim: 'rgba(59,130,246,0.12)', glow: 'rgba(59,130,246,0.25)', text: '#93c5fd' },
-  2: { color: '#8b5cf6', dim: 'rgba(139,92,246,0.12)', glow: 'rgba(139,92,246,0.25)', text: '#c4b5fd' },
-  3: { color: '#64c9cf', dim: 'rgba(100,201,207,0.12)', glow: 'rgba(100,201,207,0.25)', text: '#64c9cf' },
+  1: { color: '#4a6fa5', dim: 'rgba(74,111,165,0.10)', glow: 'rgba(74,111,165,0.18)', text: '#3b5d8f' },
+  2: { color: '#7b6b99', dim: 'rgba(123,107,153,0.10)', glow: 'rgba(123,107,153,0.18)', text: '#6a5b87' },
+  3: { color: '#5a8a7a', dim: 'rgba(90,138,122,0.10)', glow: 'rgba(90,138,122,0.18)', text: '#4a7768' },
 };
 
 function applyTierColors(tier) {

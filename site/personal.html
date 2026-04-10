@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personal AI Constitution Builder</title>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NKNHG710YG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-NKNHG710YG');
+</script>
+<meta name="description" content="Build your Personal AI Constitution — a portable document that tells every AI who you are, what you believe, and how you work. Export to Claude, ChatGPT, Gemini, and more.">
+<link rel="canonical" href="https://constitutionbuilder.ai/personal.html">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://constitutionbuilder.ai/personal.html">
+<meta property="og:title" content="Personal AI Constitution Builder">
+<meta property="og:description" content="Build your Personal AI Constitution — a portable document that tells every AI who you are, what you believe, and how you work. Export to Claude, ChatGPT, Gemini, and more.">
+<meta property="og:site_name" content="Constitution Builder">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Personal AI Constitution Builder">
+<meta name="twitter:description" content="Build your Personal AI Constitution — a portable document that tells every AI who you are, what you believe, and how you work.">
+
+<meta name="keywords" content="personal AI constitution, AI memory, AI context, ChatGPT custom instructions, Claude memory, Gemini gems, AI personalization, portable AI identity">
+<meta name="author" content="Hillview Capital">
+<meta name="robots" content="index, follow">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Personal AI Constitution Builder",
+  "url": "https://constitutionbuilder.ai/personal.html",
+  "description": "Build your Personal AI Constitution — a portable document that tells every AI who you are, what you believe, and how you work. Export to Claude, ChatGPT, Gemini, and more.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Web",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "author": { "@type": "Organization", "name": "Hillview Capital" }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=JetBrains+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
+<style>
+/* ================================================================
+   DESIGN TOKENS — Warm Earth palette (clay accent for personal)
+   ================================================================ */
+:root {
+  --bg-root:      #f6f1eb;
+  --bg-surface:   #ffffff;
+  --bg-elevated:  #faf7f3;
+  --bg-input:     #f0ebe4;
+  --border:       #d9cfc3;
+  --border-subtle: rgba(120,100,80,0.08);
+
+  --text-primary:   #2c2418;
+  --text-secondary: #5c4f3e;
+  --text-muted:     #8a7e6f;
+  --text-bright:    #3d3225;
+  --text-inverse:   #faf7f3;
+
+  --clay:       #b07850;
+  --clay-dim:   rgba(176,120,80,0.10);
+  --clay-glow:  rgba(176,120,80,0.18);
+  --clay-text:  #96633f;
+
+  --sage:       #5a7a64;
+  --sage-dim:   rgba(90,122,100,0.10);
+
+  --indigo:       #4a5578;
+  --indigo-dim:   rgba(74,85,120,0.10);
+
+  --tier-color: var(--clay);
+  --tier-dim: var(--clay-dim);
+  --tier-glow: var(--clay-glow);
+  --tier-text: var(--clay-text);
+
+  --amber:  #c4883a;
+  --red:    #b85450;
+  --red-dim: rgba(184,84,80,0.10);
+  --green:  #5a8a5e;
+
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body:    'DM Sans', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', 'Consolas', monospace;
+  --radius:    8px;
+  --radius-lg: 12px;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ================================================================
+   RESET & BASE
+   ================================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-root);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
+a { color: var(--clay); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+/* ================================================================
+   TOP BAR
+   ================================================================ */
+.topbar {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(246,241,235,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0;
+}
+.topbar__inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.topbar__brand {
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--font-display); font-size: 1.05rem; font-weight: 600;
+  color: var(--text-primary); text-decoration: none;
+}
+.topbar__brand svg { flex-shrink: 0; }
+.topbar__links { display: flex; align-items: center; gap: 20px; font-size: 0.875rem; }
+.topbar__links a { color: var(--text-secondary); transition: color 0.15s; }
+.topbar__links a:hover { color: var(--text-primary); text-decoration: none; }
+.topbar__links a.active { color: var(--clay); }
+
+/* ================================================================
+   HERO
+   ================================================================ */
+.hero { padding: 80px 0 60px; text-align: center; position: relative; overflow: hidden; }
+.hero::before {
+  content: ''; position: absolute; top: -180px; left: 50%; transform: translateX(-50%);
+  width: 700px; height: 500px;
+  background: radial-gradient(ellipse, rgba(176,120,80,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero__label {
+  display: inline-block; font-family: var(--font-mono); font-size: 0.72rem; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--clay);
+  background: var(--clay-dim); border: 1px solid rgba(176,120,80,0.2);
+  border-radius: 100px; padding: 6px 16px; margin-bottom: 24px;
+}
+.hero h1 { font-size: clamp(2rem, 4.5vw, 3.2rem); font-weight: 700; margin-bottom: 16px; position: relative; }
+.hero h1 span {
+  background: linear-gradient(135deg, var(--clay) 0%, var(--sage) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.hero__sub {
+  font-size: 1.05rem; color: var(--text-secondary); max-width: 640px; margin: 0 auto 36px; line-height: 1.7;
+}
+.hero__cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--clay); color: var(--text-inverse);
+  font-family: var(--font-body); font-weight: 600; font-size: 1rem;
+  padding: 14px 32px; border-radius: 100px; border: none; cursor: pointer;
+  transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+.hero__cta:hover { transform: translateY(-1px); box-shadow: 0 8px 24px var(--clay-glow); }
+.hero__cta svg { transition: transform 0.2s var(--ease); }
+.hero__cta:hover svg { transform: translateX(3px); }
+
+.hero__features { display: flex; justify-content: center; gap: 32px; margin-top: 40px; flex-wrap: wrap; }
+.hero__feature { text-align: center; max-width: 200px; }
+.hero__feature-icon { font-size: 1.5rem; margin-bottom: 8px; color: var(--clay); }
+.hero__feature-title { font-family: var(--font-display); font-size: 0.95rem; font-weight: 600; margin-bottom: 4px; }
+.hero__feature-text { font-size: 0.8rem; color: var(--text-muted); }
+
+/* ================================================================
+   BUILDER
+   ================================================================ */
+#builder { display: none; padding: 40px 0 80px; }
+#builder.active { display: block; }
+
+/* Progress bar */
+.progress-bar-wrap { margin-bottom: 36px; padding: 0 4px; }
+.progress-bar__header {
+  display: flex; align-items: baseline; justify-content: space-between;
+  margin-bottom: 10px;
+}
+.progress-bar__label { font-family: var(--font-display); font-size: 0.95rem; font-weight: 600; }
+.progress-bar__count { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); }
+.progress-bar__track {
+  width: 100%; height: 6px;
+  background: var(--bg-input);
+  border-radius: 100px; overflow: hidden;
+}
+.progress-bar__fill {
+  height: 100%; border-radius: 100px;
+  background: linear-gradient(90deg, var(--clay) 0%, color-mix(in srgb, var(--clay) 70%, white) 100%);
+  transition: width 0.4s var(--ease);
+}
+
+/* Two-column layout */
+.builder__layout { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+@media (max-width: 960px) { .builder__layout { grid-template-columns: 1fr; } }
+
+/* Panels */
+.panel {
+  background: var(--bg-surface); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); overflow: hidden;
+  box-shadow: 0 1px 3px rgba(44,36,24,0.06), 0 4px 12px rgba(44,36,24,0.04);
+}
+.panel__header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 24px; border-bottom: 1px solid var(--border);
+}
+.panel__title { font-family: var(--font-display); font-size: 1rem; font-weight: 600; }
+.panel__body { padding: 24px; }
+
+/* Step prompt (the "interview" question) */
+.step-prompt {
+  font-size: 1.05rem; font-style: italic; color: var(--text-secondary);
+  margin-bottom: 24px; line-height: 1.6;
+  padding: 16px 20px; background: var(--clay-dim);
+  border-radius: var(--radius); border-left: 3px solid var(--clay);
+}
+
+/* Form elements */
+.form-group { margin-bottom: 22px; }
+.form-group:last-child { margin-bottom: 0; }
+.form-label { display: block; font-size: 0.82rem; font-weight: 500; color: var(--text-secondary); margin-bottom: 6px; }
+.form-label small { font-weight: 400; color: var(--text-muted); }
+.form-input, .form-textarea, .form-select {
+  width: 100%; font-family: var(--font-body); font-size: 0.9rem; padding: 10px 14px;
+  border-radius: var(--radius); border: 1px solid var(--border);
+  background: var(--bg-input); color: var(--text-primary); outline: none; transition: border-color 0.15s;
+}
+.form-input:focus, .form-textarea:focus, .form-select:focus {
+  border-color: var(--clay); box-shadow: 0 0 0 3px var(--clay-dim);
+}
+.form-input::placeholder, .form-textarea::placeholder { color: var(--text-muted); }
+.form-textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+.form-hint { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
+
+/* Tag inputs */
+.tag-input-wrap { display: flex; flex-wrap: wrap; gap: 6px; padding: 8px 10px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-input); min-height: 42px; cursor: text; }
+.tag-input-wrap:focus-within { border-color: var(--clay); box-shadow: 0 0 0 3px var(--clay-dim); }
+.tag-pill { display: inline-flex; align-items: center; gap: 4px; font-size: 0.8rem; padding: 3px 10px; border-radius: 100px; background: var(--clay-dim); color: var(--clay-text); border: 1px solid rgba(176,120,80,0.2); }
+.tag-pill__remove { cursor: pointer; font-size: 1rem; line-height: 1; opacity: 0.6; background: none; border: none; color: inherit; padding: 0; }
+.tag-pill__remove:hover { opacity: 1; }
+.tag-input { border: none; background: transparent; outline: none; font-family: var(--font-body); font-size: 0.85rem; color: var(--text-primary); min-width: 120px; flex: 1; padding: 2px 4px; }
+.tag-input::placeholder { color: var(--text-muted); }
+
+/* Suggestion chips */
+.suggestion-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.suggestion-chip {
+  font-size: 0.78rem; padding: 5px 12px; border-radius: 100px;
+  border: 1px dashed var(--border); background: transparent;
+  color: var(--text-secondary); cursor: pointer; transition: all 0.15s;
+  font-family: var(--font-body);
+}
+.suggestion-chip:hover { border-color: var(--clay); color: var(--clay-text); background: var(--clay-dim); border-style: solid; }
+
+/* Checkbox rules */
+.rule-list { display: flex; flex-direction: column; gap: 6px; }
+.rule-item { display: flex; align-items: flex-start; gap: 8px; padding: 8px 12px; border-radius: var(--radius); background: var(--bg-elevated); }
+.rule-item input[type="checkbox"] { margin-top: 3px; accent-color: var(--clay); flex-shrink: 0; }
+.rule-item label { font-size: 0.85rem; color: var(--text-secondary); cursor: pointer; line-height: 1.4; }
+
+/* Dynamic list inputs */
+.list-input { display: flex; flex-direction: column; gap: 8px; }
+.list-input__row { display: flex; gap: 8px; align-items: center; }
+.list-input__row .form-input { flex: 1; }
+.list-input__remove {
+  width: 32px; height: 32px; border-radius: var(--radius); border: 1px solid var(--border);
+  background: transparent; color: var(--text-muted); cursor: pointer;
+  display: flex; align-items: center; justify-content: center; transition: all 0.15s; flex-shrink: 0;
+}
+.list-input__remove:hover { border-color: var(--red); color: var(--red); background: var(--red-dim); }
+.list-input__add {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-body); font-size: 0.8rem; color: var(--clay);
+  background: transparent; border: 1px dashed var(--clay-dim);
+  border-radius: var(--radius); padding: 8px 14px; cursor: pointer; transition: all 0.15s;
+}
+.list-input__add:hover { background: var(--clay-dim); border-color: var(--clay); }
+
+/* Preview */
+.preview-wrap { max-height: 600px; overflow-y: auto; padding: 24px; }
+.preview-wrap::-webkit-scrollbar { width: 6px; }
+.preview-wrap::-webkit-scrollbar-track { background: transparent; }
+.preview-wrap::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+.preview-wrap .md-rendered { font-family: var(--font-body); font-size: 0.88rem; line-height: 1.7; color: var(--text-bright); }
+.preview-wrap .md-rendered h1 { font-family: var(--font-display); font-size: 1.35rem; font-weight: 700; color: var(--text-primary); margin: 0 0 4px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+.preview-wrap .md-rendered h2 { font-family: var(--font-display); font-size: 1.05rem; font-weight: 600; color: var(--clay); margin: 28px 0 8px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+.preview-wrap .md-rendered h3 { font-family: var(--font-display); font-size: 0.92rem; font-weight: 600; color: var(--text-primary); margin: 20px 0 6px; }
+.preview-wrap .md-rendered p { margin: 8px 0; color: var(--text-secondary); }
+.preview-wrap .md-rendered strong { color: var(--text-primary); font-weight: 600; }
+.preview-wrap .md-rendered ul, .preview-wrap .md-rendered ol { margin: 6px 0 6px 20px; color: var(--text-secondary); }
+.preview-wrap .md-rendered li { margin: 3px 0; }
+.preview-wrap .md-rendered hr { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+.preview-wrap .md-rendered table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 0.82rem; }
+.preview-wrap .md-rendered th { text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--border); color: var(--text-primary); font-weight: 600; }
+.preview-wrap .md-rendered td { padding: 5px 10px; border-bottom: 1px solid var(--border); color: var(--text-secondary); }
+
+.preview-placeholder { font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-muted); text-align: center; padding: 40px 20px; }
+
+/* Nav buttons */
+.builder__nav { display: flex; justify-content: space-between; align-items: center; margin-top: 32px; gap: 16px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-body); font-size: 0.9rem; font-weight: 500;
+  padding: 10px 22px; border-radius: 100px; border: 1px solid var(--border);
+  background: transparent; color: var(--text-secondary); cursor: pointer; transition: all 0.15s;
+}
+.btn:hover { border-color: var(--text-muted); color: var(--text-primary); }
+.btn--primary { background: var(--clay); border-color: var(--clay); color: var(--text-inverse); font-weight: 600; }
+.btn--primary:hover { box-shadow: 0 4px 20px var(--clay-glow); transform: translateY(-1px); }
+.btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
+
+/* Export */
+.export-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+.export-result { margin-top: 16px; padding: 12px 16px; border-radius: var(--radius); font-size: 0.82rem; display: none; }
+.export-result.show { display: block; }
+.export-result.success { background: rgba(90,138,94,0.1); color: var(--green); border: 1px solid rgba(90,138,94,0.2); }
+
+/* Export format cards */
+.export-format { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 18px; margin-bottom: 10px; }
+.export-format__header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+.export-format__name { font-size: 0.88rem; font-weight: 600; }
+.export-format__badge { font-family: var(--font-mono); font-size: 0.68rem; padding: 2px 8px; border-radius: 100px; }
+.export-format__badge--ok { background: rgba(90,138,94,0.1); color: var(--green); border: 1px solid rgba(90,138,94,0.2); }
+.export-format__badge--warn { background: rgba(196,136,58,0.1); color: var(--amber); border: 1px solid rgba(196,136,58,0.2); }
+.export-format__desc { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px; }
+.export-format__actions { display: flex; gap: 8px; }
+
+/* Char count display */
+.char-count { font-family: var(--font-mono); font-size: 0.72rem; padding: 4px 10px; border-radius: var(--radius); }
+.char-count--ok { background: rgba(90,138,94,0.08); color: var(--green); }
+.char-count--warn { background: rgba(196,136,58,0.08); color: var(--amber); }
+.char-count--over { background: var(--red-dim); color: var(--red); }
+
+/* Saved badge */
+.saved-badge {
+  font-family: var(--font-mono); font-size: 0.68rem;
+  color: var(--green); opacity: 0; transition: opacity 0.3s;
+}
+.saved-badge.show { opacity: 1; }
+
+/* Accordion for export instructions */
+.accordion { border: 1px solid var(--border); border-radius: var(--radius); margin-top: 8px; overflow: hidden; }
+.accordion__trigger { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: var(--bg-elevated); border: none; cursor: pointer; font-family: var(--font-body); font-size: 0.82rem; color: var(--text-secondary); }
+.accordion__trigger:hover { color: var(--text-primary); }
+.accordion__arrow { transition: transform 0.2s; font-size: 0.7rem; }
+.accordion__trigger.open .accordion__arrow { transform: rotate(90deg); }
+.accordion__body { display: none; padding: 12px 14px; font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6; }
+.accordion__body.open { display: block; }
+.accordion__body ol { margin: 6px 0 6px 18px; }
+.accordion__body li { margin: 4px 0; }
+.accordion__body code { font-family: var(--font-mono); font-size: 0.82em; background: var(--bg-input); padding: 1px 5px; border-radius: 3px; color: var(--clay); }
+
+/* ================================================================
+   FOOTER
+   ================================================================ */
+.site-footer {
+  border-top: 1px solid var(--border); padding: 48px 0;
+  text-align: center; position: relative; z-index: 1;
+}
+.site-footer p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px; }
+.site-footer a { color: var(--text-secondary); }
+
+/* ================================================================
+   ANIMATIONS
+   ================================================================ */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+.anim-fade-up { animation: fadeUp 0.6s var(--ease) both; }
+.anim-delay-1 { animation-delay: 0.1s; }
+.anim-delay-2 { animation-delay: 0.2s; }
+.anim-delay-3 { animation-delay: 0.3s; }
+
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
+@media (max-width: 640px) {
+  .hero { padding: 48px 0 40px; }
+  .hero__features { gap: 20px; }
+  .builder__layout { grid-template-columns: 1fr; }
+  .builder__nav { flex-direction: column; }
+  .panel__body { padding: 16px; }
+  .export-format__actions { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     TOP BAR
+     ============================================================ -->
+<nav class="topbar">
+  <div class="container topbar__inner">
+    <a class="topbar__brand" href="index.html" style="text-decoration:none;color:inherit;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Constitution Builder
+    </a>
+    <div class="topbar__links">
+      <span class="saved-badge" id="savedBadge">saved</span>
+      <a href="index.html">Enterprise</a>
+      <a href="personal.html" class="active">Personal</a>
+      <a href="deploy.html">Deploy</a>
+      <a href="projects.html">Projects</a>
+      <a href="https://github.com/HillviewCap/enterprise-ai-constitution" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section class="hero" id="hero">
+  <div class="container">
+    <div class="anim-fade-up">
+      <span class="hero__label">Personal AI Constitution</span>
+    </div>
+    <h1 class="anim-fade-up anim-delay-1">
+      Brief Every AI on <span>Who You Are</span>
+    </h1>
+    <p class="hero__sub anim-fade-up anim-delay-2">
+      Build a portable document that captures who you are, what you believe, how you work, and what you need from AI. Export to every major platform in one session.
+    </p>
+
+    <div class="anim-fade-up anim-delay-3" style="text-align:center;">
+      <button class="hero__cta" onclick="startBuilder()">
+        Start Building
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </button>
+    </div>
+
+    <div class="hero__features anim-fade-up anim-delay-3">
+      <div class="hero__feature">
+        <div class="hero__feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <div class="hero__feature-title">Your Identity</div>
+        <div class="hero__feature-text">Articulate who you are so every AI starts from context, not zero</div>
+      </div>
+      <div class="hero__feature">
+        <div class="hero__feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/></svg></div>
+        <div class="hero__feature-title">8 Export Formats</div>
+        <div class="hero__feature-text">Claude, ChatGPT, Gemini, PAI TELOS, system prompt, and more</div>
+      </div>
+      <div class="hero__feature">
+        <div class="hero__feature-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+        <div class="hero__feature-title">Private by Default</div>
+        <div class="hero__feature-text">Everything stays in your browser. No accounts, no server, no tracking</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     BUILDER
+     ============================================================ -->
+<section id="builder" class="container">
+  <div class="progress-bar-wrap">
+    <div class="progress-bar__header">
+      <div class="progress-bar__label" id="progressLabel">Who You Are</div>
+      <div class="progress-bar__count" id="progressCount">Step 1 of 7</div>
+    </div>
+    <div class="progress-bar__track">
+      <div class="progress-bar__fill" id="progressFill" style="width: 0%"></div>
+    </div>
+  </div>
+  <div class="builder__layout">
+    <!-- LEFT: Form -->
+    <div class="panel">
+      <div class="panel__header">
+        <div class="panel__title" id="formPanelTitle">Identity</div>
+      </div>
+      <div class="panel__body" id="formArea"></div>
+      <div class="builder__nav" style="padding: 0 24px 20px;">
+        <button class="btn" id="btnBack" onclick="prevStep()" disabled>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          Back
+        </button>
+        <button class="btn btn--primary" id="btnNext" onclick="nextStep()">
+          Next
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- RIGHT: Preview -->
+    <div class="panel" style="position: sticky; top: 80px;">
+      <div class="panel__header">
+        <div class="panel__title">Live Preview</div>
+      </div>
+      <div class="preview-wrap" id="previewWrap">
+        <div class="preview-placeholder">Your personal constitution will appear here as you fill in each section.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="site-footer">
+  <div class="container">
+    <p>Constitution Builder &mdash; <a href="https://github.com/HillviewCap/enterprise-ai-constitution" target="_blank" rel="noopener">Open Source on GitHub</a></p>
+    <p>Licensed under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>. Build upon it freely.</p>
+  </div>
+</footer>
+
+<!-- ============================================================
+     APPLICATION LOGIC
+     ============================================================ -->
+<script>
+// ──────────────────────────────────────────────────────────
+// State
+// ──────────────────────────────────────────────────────────
+const STORAGE_KEY = 'personal_constitution_draft';
+
+const state = {
+  step: 0,
+  data: {
+    // Identity
+    name: '', preferred_name: '', role: '', bio: '', expertise: [], learning: [],
+    // Beliefs
+    beliefs: [],
+    // Goals
+    mission: '', goals_short: '', goals_medium: '', goals_long: '',
+    projects: [], // [{name, desc, status}]
+    // Working Style
+    comm_style: '', os: '', editor: '', shell: '', languages: '', stack: '', work_patterns: '',
+    // Knowledge
+    deep_expertise: [], competent: [], learning_areas: [], mental_models: [],
+    // Boundaries
+    always_rules: ['Flag security concerns proactively', 'Confirm before destructive actions', 'Cite sources when uncertain', 'Respect existing code patterns'],
+    never_rules: ['Make up information', 'Add features not requested', 'Use emojis unless asked', 'Summarize what you just did'],
+    uncertainty_rules: ['Say so directly', 'Offer options with tradeoffs', 'Ask clarifying questions'],
+    custom_always: [], custom_never: [], custom_uncertainty: [],
+    // Context
+    org_context: '', team_role: '', constraints: '', external_tools: '', recurring_tasks: '',
+  }
+};
+
+// ──────────────────────────────────────────────────────────
+// Steps
+// ──────────────────────────────────────────────────────────
+const STEPS = [
+  { id: 'identity', label: 'Who You Are', title: 'Identity' },
+  { id: 'beliefs', label: 'What You Believe', title: 'Beliefs & Values' },
+  { id: 'goals', label: 'Where You\'re Headed', title: 'Goals & Mission' },
+  { id: 'working', label: 'How You Work', title: 'Working Style' },
+  { id: 'knowledge', label: 'What You Know', title: 'Knowledge & Expertise' },
+  { id: 'boundaries', label: 'Rules of Engagement', title: 'Boundaries & Preferences' },
+  { id: 'export', label: 'Review & Export', title: 'Review & Export' },
+];
+
+// ──────────────────────────────────────────────────────────
+// LocalStorage
+// ──────────────────────────────────────────────────────────
+function saveState() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    flashSaved();
+  } catch(e) {}
+}
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return false;
+    const saved = JSON.parse(raw);
+    if (saved && saved.data) {
+      // Merge saved data with defaults (so new fields get defaults)
+      state.step = saved.step || 0;
+      Object.keys(saved.data).forEach(k => { state.data[k] = saved.data[k]; });
+      return true;
+    }
+  } catch(e) {}
+  return false;
+}
+let _saveTimeout = null;
+function debouncedSave() { clearTimeout(_saveTimeout); _saveTimeout = setTimeout(saveState, 400); }
+function flashSaved() {
+  const badge = document.getElementById('savedBadge');
+  badge.classList.add('show');
+  setTimeout(() => badge.classList.remove('show'), 1500);
+}
+
+// ──────────────────────────────────────────────────────────
+// Helpers
+// ──────────────────────────────────────────────────────────
+function esc(s) { if (!s) return ''; return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function setField(key, val) { state.data[key] = val; updatePreview(); debouncedSave(); }
+function arrFilter(arr) { return (arr || []).filter(x => x && x.trim()); }
+
+function inputField(key, label, placeholder, hint) {
+  let h = `<div class="form-group"><label class="form-label">${label}</label>
+    <input class="form-input" type="text" placeholder="${placeholder||''}" value="${esc(state.data[key]||'')}"
+    oninput="setField('${key}', this.value)">`;
+  if (hint) h += `<div class="form-hint">${hint}</div>`;
+  return h + `</div>`;
+}
+
+function textareaField(key, label, placeholder, hint) {
+  let h = `<div class="form-group"><label class="form-label">${label}</label>
+    <textarea class="form-textarea" placeholder="${placeholder||''}" rows="3"
+    oninput="setField('${key}', this.value)">${esc(state.data[key]||'')}</textarea>`;
+  if (hint) h += `<div class="form-hint">${hint}</div>`;
+  return h + `</div>`;
+}
+
+function tagField(key, label, placeholder) {
+  const tags = state.data[key] || [];
+  let pills = tags.map((t,i) => `<span class="tag-pill">${esc(t)}<button class="tag-pill__remove" onclick="removeTag('${key}',${i})">&times;</button></span>`).join('');
+  return `<div class="form-group"><label class="form-label">${label}</label>
+    <div class="tag-input-wrap" onclick="this.querySelector('input').focus()">
+      ${pills}
+      <input class="tag-input" type="text" placeholder="${placeholder||'Type and press Enter'}"
+        onkeydown="if(event.key==='Enter'){event.preventDefault();addTag('${key}',this);}">
+    </div></div>`;
+}
+
+function addTag(key, input) {
+  const v = input.value.trim();
+  if (!v) return;
+  if (!state.data[key]) state.data[key] = [];
+  state.data[key].push(v);
+  input.value = '';
+  renderCurrentStep();
+  updatePreview();
+  debouncedSave();
+}
+function removeTag(key, idx) {
+  state.data[key].splice(idx, 1);
+  renderCurrentStep();
+  updatePreview();
+  debouncedSave();
+}
+
+function listField(key, label, placeholder, hint) {
+  const items = state.data[key] || [''];
+  let h = `<div class="form-group"><label class="form-label">${label}</label><div class="list-input" id="list_${key}">`;
+  items.forEach((item, i) => {
+    h += `<div class="list-input__row">
+      <input class="form-input" type="text" placeholder="${placeholder||''}" value="${esc(item)}"
+        oninput="updateListItem('${key}',${i},this.value)">
+      <button class="list-input__remove" onclick="removeListItem('${key}',${i})" title="Remove">&times;</button></div>`;
+  });
+  h += `<button class="list-input__add" onclick="addListItem('${key}')">+ Add item</button></div>`;
+  if (hint) h += `<div class="form-hint">${hint}</div>`;
+  return h + `</div>`;
+}
+function updateListItem(key, idx, v) { if(!state.data[key]) state.data[key]=['']; state.data[key][idx]=v; updatePreview(); debouncedSave(); }
+function addListItem(key) { if(!state.data[key]) state.data[key]=['']; state.data[key].push(''); renderCurrentStep(); }
+function removeListItem(key, idx) { if(!state.data[key]) return; state.data[key].splice(idx,1); if(!state.data[key].length) state.data[key]=['']; renderCurrentStep(); updatePreview(); debouncedSave(); }
+
+// Communication style helper
+const COMM_OPTIONS = [
+  'Get to the point — I can ask for more detail',
+  'Give me the full picture — I will skim what I do not need',
+  'Match the complexity to the question',
+];
+function setCommStyle(idx) { setField('comm_style', COMM_OPTIONS[idx]); renderCurrentStep(); }
+
+// Project table helpers
+function addProject() { state.data.projects.push({name:'',desc:'',status:'Active'}); renderCurrentStep(); }
+function updateProject(idx, field, val) { state.data.projects[idx][field] = val; updatePreview(); debouncedSave(); }
+function removeProject(idx) { state.data.projects.splice(idx,1); renderCurrentStep(); updatePreview(); debouncedSave(); }
+
+// Suggestion chips
+function addSuggestion(key, text) {
+  if (!state.data[key]) state.data[key] = [];
+  if (state.data[key].includes(text)) return;
+  state.data[key].push(text);
+  renderCurrentStep();
+  updatePreview();
+  debouncedSave();
+}
+
+// ──────────────────────────────────────────────────────────
+// Step renderers
+// ──────────────────────────────────────────────────────────
+function renderIdentity() {
+  return `<div class="step-prompt">Let's start with the basics. How would you introduce yourself to an AI that's going to work alongside you every day?</div>` +
+    inputField('name', 'Full name', 'Alex Chen') +
+    inputField('preferred_name', 'What should AI call you?', 'Alex', 'Leave blank to use your full name') +
+    inputField('role', 'Role(s)', 'OT Cybersecurity Consultant, Bonsai Enthusiast', 'Professional title, side projects, personal identity') +
+    textareaField('bio', 'One-paragraph bio', 'I work at the intersection of cybersecurity and industrial control systems...', 'The "elevator pitch" version of you') +
+    tagField('expertise', 'Domain expertise', 'e.g., OT Security, Python, Risk Assessment') +
+    tagField('learning', 'Currently learning', 'e.g., Rust, AI Governance, Japanese Joinery');
+}
+
+function renderBeliefs() {
+  return `<div class="step-prompt">What do you hold true? These are the principles an AI should never contradict when working with you.</div>` +
+    listField('beliefs', 'Core beliefs and values', 'e.g., Security is a process, not a product') +
+    `<div class="form-label" style="margin-top:12px;">Suggestions <small>(click to add)</small></div>
+    <div class="suggestion-chips">
+      <button class="suggestion-chip" onclick="addSuggestion('beliefs','Open source over proprietary when quality is comparable')">Open source over proprietary</button>
+      <button class="suggestion-chip" onclick="addSuggestion('beliefs','Simple solutions over clever ones')">Simple over clever</button>
+      <button class="suggestion-chip" onclick="addSuggestion('beliefs','Security is a process, not a product')">Security is a process</button>
+      <button class="suggestion-chip" onclick="addSuggestion('beliefs','Measure twice, cut once')">Measure twice, cut once</button>
+      <button class="suggestion-chip" onclick="addSuggestion('beliefs','Done is better than perfect')">Done > perfect</button>
+      <button class="suggestion-chip" onclick="addSuggestion('beliefs','Quality over speed')">Quality over speed</button>
+      <button class="suggestion-chip" onclick="addSuggestion('beliefs','Defense in depth over perimeter security')">Defense in depth</button>
+      <button class="suggestion-chip" onclick="addSuggestion('beliefs','Data-driven decisions over intuition alone')">Data-driven decisions</button>
+    </div>`;
+}
+
+function renderGoals() {
+  let projectRows = '';
+  (state.data.projects || []).forEach((p, i) => {
+    projectRows += `<div style="display:grid;grid-template-columns:1fr 1fr auto auto;gap:8px;align-items:center;margin-bottom:8px;">
+      <input class="form-input" placeholder="Project name" value="${esc(p.name)}" oninput="updateProject(${i},'name',this.value)">
+      <input class="form-input" placeholder="Description" value="${esc(p.desc)}" oninput="updateProject(${i},'desc',this.value)">
+      <select class="form-select" style="width:auto;padding:8px 10px;" onchange="updateProject(${i},'status',this.value)">
+        <option ${p.status==='Active'?'selected':''}>Active</option>
+        <option ${p.status==='Planning'?'selected':''}>Planning</option>
+        <option ${p.status==='On Hold'?'selected':''}>On Hold</option>
+        <option ${p.status==='Complete'?'selected':''}>Complete</option>
+      </select>
+      <button class="list-input__remove" onclick="removeProject(${i})">&times;</button>
+    </div>`;
+  });
+
+  return `<div class="step-prompt">What are you trying to accomplish? Think big picture and near-term.</div>` +
+    textareaField('mission', 'Professional mission', 'To secure critical infrastructure by bridging the gap between IT security and OT operations...', 'Your "why"') +
+    inputField('goals_short', 'Short-term goals (this month)', 'Complete NIST assessment for client X') +
+    inputField('goals_medium', 'Medium-term goals (this quarter/year)', 'Launch Constitution Builder v2, publish 3 blog posts') +
+    inputField('goals_long', 'Long-term goals (career arc)', 'Become the go-to resource for OT cybersecurity governance') +
+    `<div class="form-group"><label class="form-label">Active Projects</label>
+    ${projectRows}
+    <button class="list-input__add" onclick="addProject()">+ Add project</button></div>`;
+}
+
+function renderWorking() {
+  const commLabels = ['Concise', 'Detailed', 'Adaptive'];
+  const commChips = COMM_OPTIONS.map((val, i) =>
+    `<button class="suggestion-chip ${state.data.comm_style === val ? 'selected' : ''}" onclick="setCommStyle(${i})">${commLabels[i]}</button>`
+  ).join('\n      ');
+
+  return `<div class="step-prompt">How do you actually get things done? What does a productive day look like for you?</div>` +
+    `<div class="form-group"><label class="form-label">Communication preference</label>
+    <div class="suggestion-chips" style="margin-top:0;">
+      ${commChips}
+    </div>
+    <input class="form-input" style="margin-top:8px;" placeholder="Or type your own..." value="${esc(state.data.comm_style)}" oninput="setField('comm_style',this.value)">
+    </div>` +
+    inputField('os', 'Operating system', 'Fedora Linux') +
+    inputField('editor', 'Editor / IDE', 'Neovim, VS Code') +
+    inputField('shell', 'Shell', 'bash') +
+    inputField('languages', 'Primary languages', 'Python, Go, Bash') +
+    inputField('stack', 'Tech stack / platforms', 'GCP, Docker, Terraform, Cloudflare') +
+    textareaField('work_patterns', 'Work patterns', 'Deep focus mornings, meetings afternoon, async-first communication...', 'What energizes vs. drains you, routines, preferences');
+}
+
+function renderKnowledge() {
+  return `<div class="step-prompt">Help the AI calibrate. Where are you an expert, where are you solid, and where are you learning?</div>` +
+    tagField('deep_expertise', 'Deep expertise — "Be terse here, I know this cold"', 'e.g., ICS Security, Python, Risk Assessment') +
+    tagField('competent', 'Competent — "Be precise, I know the basics"', 'e.g., React, Cloud Architecture, SQL') +
+    tagField('learning_areas', 'Learning — "Explain thoroughly, I\'m building understanding"', 'e.g., Rust, AI/ML, Japanese Joinery') +
+    tagField('mental_models', 'Frameworks & mental models you use', 'e.g., OODA Loop, Defense in Depth, NIST CSF');
+}
+
+function renderBoundaries() {
+  function ruleChecklist(category, defaults, customKey) {
+    const checked = state.data[category] || [];
+    let h = '';
+    defaults.forEach(rule => {
+      const isChecked = checked.includes(rule);
+      h += `<div class="rule-item">
+        <input type="checkbox" id="r_${category}_${rule.substring(0,10).replace(/\s/g,'')}" ${isChecked?'checked':''}
+          onchange="toggleRule('${category}','${esc(rule)}',this.checked)">
+        <label for="r_${category}_${rule.substring(0,10).replace(/\s/g,'')}">${rule}</label>
+      </div>`;
+    });
+    // Custom rules
+    const customs = state.data[customKey] || [];
+    customs.forEach((r,i) => {
+      h += `<div class="rule-item">
+        <input class="form-input" style="flex:1;" value="${esc(r)}" placeholder="Custom rule..."
+          oninput="updateCustomRule('${customKey}',${i},this.value)">
+        <button class="list-input__remove" onclick="removeCustomRule('${customKey}',${i})">&times;</button>
+      </div>`;
+    });
+    h += `<button class="list-input__add" onclick="addCustomRule('${customKey}')">+ Add custom rule</button>`;
+    return h;
+  }
+
+  return `<div class="step-prompt">What are the ground rules? These become behavioral mandates for every AI session.</div>` +
+    `<div class="form-group"><label class="form-label">Always</label><div class="rule-list">${ruleChecklist('always_rules',
+      ['Flag security concerns proactively','Confirm before destructive actions','Cite sources when uncertain','Respect existing code patterns'],
+      'custom_always')}</div></div>` +
+    `<div class="form-group"><label class="form-label">Never</label><div class="rule-list">${ruleChecklist('never_rules',
+      ['Make up information','Add features not requested','Use emojis unless asked','Summarize what you just did'],
+      'custom_never')}</div></div>` +
+    `<div class="form-group"><label class="form-label">When Uncertain</label><div class="rule-list">${ruleChecklist('uncertainty_rules',
+      ['Say so directly','Offer options with tradeoffs','Ask clarifying questions'],
+      'custom_uncertainty')}</div></div>`;
+}
+
+function toggleRule(category, rule, checked) {
+  if (!state.data[category]) state.data[category] = [];
+  if (checked && !state.data[category].includes(rule)) state.data[category].push(rule);
+  if (!checked) state.data[category] = state.data[category].filter(r => r !== rule);
+  updatePreview(); debouncedSave();
+}
+function addCustomRule(key) { if(!state.data[key]) state.data[key]=[]; state.data[key].push(''); renderCurrentStep(); }
+function updateCustomRule(key, idx, val) { state.data[key][idx]=val; updatePreview(); debouncedSave(); }
+function removeCustomRule(key, idx) { state.data[key].splice(idx,1); renderCurrentStep(); updatePreview(); debouncedSave(); }
+
+function renderExport() {
+  const md = generateCanonical();
+  const tokens = countTokens(md);
+
+  // ChatGPT CI field lengths
+  const ci = generateChatGPTCI();
+  const f1Len = ci.field1.length, f2Len = ci.field2.length;
+  const f1Status = f1Len <= 1500 ? 'ok' : f1Len <= 1650 ? 'warn' : 'over';
+  const f2Status = f2Len <= 1500 ? 'ok' : f2Len <= 1650 ? 'warn' : 'over';
+
+  return `<div class="step-prompt" style="border-left-color:var(--sage);background:var(--sage-dim);">Review your Personal AI Constitution below. When ready, export to your preferred platforms.</div>` +
+
+  `<div style="background:var(--bg-elevated);border-radius:var(--radius);padding:16px 20px;margin-bottom:20px;">
+    <div style="display:flex;justify-content:space-between;font-size:0.85rem;color:var(--text-secondary);margin-bottom:4px;">
+      <span>Document size</span>
+      <span style="font-family:var(--font-mono);">${tokens.toLocaleString()} tokens / ${md.split(/\s+/).filter(Boolean).length.toLocaleString()} words</span>
+    </div>
+  </div>` +
+
+  // Platform export cards
+  `<div class="export-format">
+    <div class="export-format__header">
+      <span class="export-format__name">Full Document (Markdown)</span>
+      <span class="export-format__badge export-format__badge--ok">Ready</span>
+    </div>
+    <div class="export-format__desc">The canonical, uncompressed version. Human-readable, version-controllable.</div>
+    <div class="export-format__actions">
+      <button class="btn btn--primary" onclick="downloadFile(generateCanonical(),'personal-ai-constitution.md','text/markdown')">Download .md</button>
+      <button class="btn" onclick="copyText(generateCanonical())">Copy</button>
+    </div>
+  </div>` +
+
+  `<div class="export-format">
+    <div class="export-format__header">
+      <span class="export-format__name">Claude.ai Memory Import</span>
+      <span class="export-format__badge export-format__badge--ok">Ready</span>
+    </div>
+    <div class="export-format__desc">Flat factual statements for Claude.ai's bulk memory import (Settings > Capabilities > Import).</div>
+    <div class="export-format__actions">
+      <button class="btn btn--primary" onclick="copyText(generateClaudeMemory())">Copy to Clipboard</button>
+      <button class="btn" onclick="downloadFile(generateClaudeMemory(),'claude-memory-import.txt','text/plain')">Download</button>
+    </div>
+    ${renderAccordion('claude-inst', 'Installation Instructions', '<ol><li>Open Claude.ai</li><li>Go to Settings > Capabilities > Memory Import</li><li>Paste the copied text</li><li>Claude will process it over ~24 hours</li></ol>')}
+  </div>` +
+
+  `<div class="export-format">
+    <div class="export-format__header">
+      <span class="export-format__name">Claude Code CLAUDE.md</span>
+      <span class="export-format__badge export-format__badge--ok">Ready</span>
+    </div>
+    <div class="export-format__desc">Save as <code>~/.claude/CLAUDE.md</code> for global context, or <code>./CLAUDE.md</code> for project-specific.</div>
+    <div class="export-format__actions">
+      <button class="btn btn--primary" onclick="downloadFile(generateClaudeMD(),'CLAUDE.md','text/markdown')">Download CLAUDE.md</button>
+      <button class="btn" onclick="copyText(generateClaudeMD())">Copy</button>
+    </div>
+  </div>` +
+
+  `<div class="export-format">
+    <div class="export-format__header">
+      <span class="export-format__name">ChatGPT Custom Instructions</span>
+      <span class="char-count char-count--${f1Status}">Field 1: ${f1Len}/1500</span>
+      <span class="char-count char-count--${f2Status}">Field 2: ${f2Len}/1500</span>
+    </div>
+    <div class="export-format__desc">Two fields, each max 1,500 characters. Auto-compressed from your full constitution.</div>
+    <div class="export-format__actions">
+      <button class="btn btn--primary" onclick="copyText(generateChatGPTCI().field1)">Copy Field 1</button>
+      <button class="btn" onclick="copyText(generateChatGPTCI().field2)">Copy Field 2</button>
+    </div>
+    ${renderAccordion('chatgpt-inst', 'Installation Instructions', '<ol><li>Open ChatGPT > Settings > Personalization > Custom Instructions</li><li>Paste Field 1 into "What would you like ChatGPT to know about you?"</li><li>Paste Field 2 into "How would you like ChatGPT to respond?"</li></ol>')}
+  </div>` +
+
+  `<div class="export-format">
+    <div class="export-format__header">
+      <span class="export-format__name">ChatGPT GPT Knowledge File</span>
+      <span class="export-format__badge export-format__badge--ok">Ready</span>
+    </div>
+    <div class="export-format__desc">Full document for upload to a Custom GPT's Knowledge section.</div>
+    <div class="export-format__actions">
+      <button class="btn btn--primary" onclick="downloadFile(generateCanonical(),'personal-constitution-gpt.md','text/markdown')">Download .md</button>
+    </div>
+  </div>` +
+
+  `<div class="export-format">
+    <div class="export-format__header">
+      <span class="export-format__name">Gemini Gem Instructions</span>
+      <span class="export-format__badge export-format__badge--ok">Ready</span>
+    </div>
+    <div class="export-format__desc">Formatted for Gem system instructions (Create Gem > Instructions).</div>
+    <div class="export-format__actions">
+      <button class="btn btn--primary" onclick="copyText(generateGeminiGem())">Copy Instructions</button>
+      <button class="btn" onclick="downloadFile(generateGeminiGem(),'gemini-gem-instructions.txt','text/plain')">Download</button>
+    </div>
+  </div>` +
+
+  `<div class="export-format">
+    <div class="export-format__header">
+      <span class="export-format__name">PAI TELOS Files</span>
+      <span class="export-format__badge export-format__badge--ok">Ready</span>
+    </div>
+    <div class="export-format__desc">Individual markdown files matching Daniel Miessler's PAI TELOS structure.</div>
+    <div class="export-format__actions">
+      <button class="btn btn--primary" onclick="downloadPAITelos()">Download ZIP</button>
+    </div>
+  </div>` +
+
+  `<div class="export-format">
+    <div class="export-format__header">
+      <span class="export-format__name">Raw System Prompt</span>
+      <span class="export-format__badge export-format__badge--ok">Ready</span>
+    </div>
+    <div class="export-format__desc">For API developers — the canonical document wrapped in a system prompt frame.</div>
+    <div class="export-format__actions">
+      <button class="btn btn--primary" onclick="copyText(generateSystemPrompt())">Copy</button>
+      <button class="btn" onclick="downloadFile(generateSystemPrompt(),'system-prompt.txt','text/plain')">Download</button>
+    </div>
+  </div>` +
+
+  `<div style="margin-top:24px;display:flex;gap:10px;flex-wrap:wrap;">
+    <button class="btn" onclick="if(confirm('Clear all saved progress and start over?')){localStorage.removeItem(STORAGE_KEY);location.reload();}">Start Over</button>
+  </div>
+  <div class="export-result" id="exportResult"></div>`;
+}
+
+function renderAccordion(id, title, body) {
+  return `<div class="accordion">
+    <button class="accordion__trigger" onclick="toggleAccordion('${id}')">
+      <span>${title}</span><span class="accordion__arrow" id="arrow_${id}">&#9654;</span>
+    </button>
+    <div class="accordion__body" id="body_${id}">${body}</div>
+  </div>`;
+}
+function toggleAccordion(id) {
+  document.getElementById('arrow_'+id).parentElement.classList.toggle('open');
+  document.getElementById('body_'+id).classList.toggle('open');
+}
+
+// ──────────────────────────────────────────────────────────
+// Canonical Markdown generation
+// ──────────────────────────────────────────────────────────
+function generateCanonical() {
+  const d = state.data;
+  const name = d.name || '{{name}}';
+  const date = new Date().toISOString().split('T')[0];
+
+  let md = `# Personal AI Constitution\n<!-- Owner: ${name} | Version: 1.0 | Date: ${date} -->\n<!-- Generated at constitutionbuilder.ai/personal -->\n\n`;
+  md += `## About This Document\nThis is my Personal AI Constitution — a structured briefing document for any AI system I work with. It captures who I am, what I believe, how I work, and what I need from AI. Use it to ground your responses in my actual context rather than generic defaults.\n\nIf an organizational or team-level AI constitution is also active in this environment, that document takes precedence over this one.\n\n---\n\n`;
+
+  // Identity
+  md += `## Who I Am\n\n`;
+  if (d.name) md += `My name is ${d.name}.`;
+  if (d.preferred_name && d.preferred_name !== d.name) md += ` I go by ${d.preferred_name}.`;
+  if (d.role) md += ` I work as a ${d.role}.`;
+  md += '\n\n';
+  if (d.bio) md += d.bio + '\n\n';
+  const exp = arrFilter(d.expertise);
+  if (exp.length) md += `**Domain expertise:** ${exp.join(', ')}\n\n`;
+  const learn = arrFilter(d.learning);
+  if (learn.length) md += `**Currently learning:** ${learn.join(', ')}\n\n`;
+  md += `---\n\n`;
+
+  // Beliefs
+  const beliefs = arrFilter(d.beliefs);
+  if (beliefs.length) {
+    md += `## What I Believe\n\n`;
+    beliefs.forEach(b => md += `- ${b}\n`);
+    md += `\n---\n\n`;
+  }
+
+  // Goals
+  md += `## Where I'm Headed\n\n`;
+  if (d.mission) md += `### Mission\n${d.mission}\n\n`;
+  md += `### Current Goals\n`;
+  if (d.goals_short) md += `- **Short-term:** ${d.goals_short}\n`;
+  if (d.goals_medium) md += `- **Medium-term:** ${d.goals_medium}\n`;
+  if (d.goals_long) md += `- **Long-term:** ${d.goals_long}\n`;
+  md += '\n';
+  const projects = (d.projects || []).filter(p => p.name);
+  if (projects.length) {
+    md += `### Active Projects\n| Project | Description | Status |\n|---------|-------------|--------|\n`;
+    projects.forEach(p => md += `| ${p.name} | ${p.desc} | ${p.status} |\n`);
+    md += '\n';
+  }
+  md += `---\n\n`;
+
+  // Working Style
+  md += `## How I Work\n\n`;
+  if (d.comm_style) md += `${d.comm_style}\n\n`;
+  if (d.work_patterns) md += `${d.work_patterns}\n\n`;
+  if (d.os || d.editor || d.shell || d.languages || d.stack) {
+    md += `### Technical Environment\n`;
+    if (d.os) md += `- **OS:** ${d.os}\n`;
+    if (d.editor) md += `- **Editor:** ${d.editor}\n`;
+    if (d.shell) md += `- **Shell:** ${d.shell}\n`;
+    if (d.languages) md += `- **Languages:** ${d.languages}\n`;
+    if (d.stack) md += `- **Stack:** ${d.stack}\n`;
+    md += '\n';
+  }
+  md += `---\n\n`;
+
+  // Knowledge
+  const deep = arrFilter(d.deep_expertise);
+  const comp = arrFilter(d.competent);
+  const learnA = arrFilter(d.learning_areas);
+  const models = arrFilter(d.mental_models);
+  if (deep.length || comp.length || learnA.length || models.length) {
+    md += `## What I Know\n\n`;
+    if (deep.length) { md += `### Deep Expertise (be terse, I know this)\n`; deep.forEach(x => md += `- ${x}\n`); md += '\n'; }
+    if (comp.length) { md += `### Competent (be precise)\n`; comp.forEach(x => md += `- ${x}\n`); md += '\n'; }
+    if (learnA.length) { md += `### Learning (explain thoroughly)\n`; learnA.forEach(x => md += `- ${x}\n`); md += '\n'; }
+    if (models.length) { md += `### Frameworks & Mental Models I Use\n`; models.forEach(x => md += `- ${x}\n`); md += '\n'; }
+    md += `---\n\n`;
+  }
+
+  // Boundaries
+  const always = arrFilter(d.always_rules).concat(arrFilter(d.custom_always));
+  const never = arrFilter(d.never_rules).concat(arrFilter(d.custom_never));
+  const uncertain = arrFilter(d.uncertainty_rules).concat(arrFilter(d.custom_uncertainty));
+  if (always.length || never.length || uncertain.length) {
+    md += `## Rules of Engagement\n\n**These are behavioral mandates, not suggestions.**\n\n`;
+    if (always.length) { md += `### Always\n`; always.forEach(r => md += `- ${r}\n`); md += '\n'; }
+    if (never.length) { md += `### Never\n`; never.forEach(r => md += `- ${r}\n`); md += '\n'; }
+    if (uncertain.length) { md += `### When Uncertain\n`; uncertain.forEach(r => md += `- ${r}\n`); md += '\n'; }
+    md += `---\n\n`;
+  }
+
+  // Context
+  if (d.org_context || d.team_role || d.constraints || d.external_tools || d.recurring_tasks) {
+    md += `## My Context\n\n`;
+    if (d.org_context) md += d.org_context + '\n\n';
+    if (d.team_role) md += `**Team role:** ${d.team_role}\n\n`;
+    if (d.constraints) md += `**Constraints:** ${d.constraints}\n\n`;
+    if (d.external_tools) md += `**External tools:** ${d.external_tools}\n\n`;
+    if (d.recurring_tasks) md += `**Recurring tasks:** ${d.recurring_tasks}\n\n`;
+    md += `---\n\n`;
+  }
+
+  md += `*Generated with [Constitution Builder](https://constitutionbuilder.ai/personal) | Version 1.0 | ${date}*\n*This document is meant to be updated as you grow. Review quarterly.*`;
+  return md;
+}
+
+// ──────────────────────────────────────────────────────────
+// Export format generators
+// ──────────────────────────────────────────────────────────
+
+function generateClaudeMemory() {
+  const d = state.data;
+  let lines = [];
+  lines.push('## About Me');
+  if (d.name) lines.push(`My name is ${d.name}.${d.preferred_name && d.preferred_name!==d.name ? ' I go by '+d.preferred_name+'.' : ''}`);
+  if (d.role) lines.push(`I work as a ${d.role}.`);
+  if (d.bio) { d.bio.split(/\.\s+/).filter(s=>s.trim()).forEach(s => lines.push(s.endsWith('.')?s:s+'.')); }
+
+  const exp = arrFilter(d.expertise);
+  const learnA = arrFilter(d.learning_areas);
+  const models = arrFilter(d.mental_models);
+  if (exp.length || learnA.length || models.length) {
+    lines.push('');
+    lines.push('## My Expertise');
+    if (exp.length) lines.push(`I have deep expertise in ${exp.join(', ')}.`);
+    const comp = arrFilter(d.competent);
+    if (comp.length) lines.push(`I am competent in ${comp.join(', ')}.`);
+    if (learnA.length) lines.push(`I am currently learning ${learnA.join(' and ')}.`);
+    if (models.length) lines.push(`I think in terms of ${models.join(', ')}.`);
+  }
+
+  const beliefs = arrFilter(d.beliefs);
+  if (beliefs.length) {
+    lines.push('');
+    lines.push('## My Beliefs and Values');
+    beliefs.forEach(b => lines.push(`I believe that ${b.charAt(0).toLowerCase()}${b.slice(1)}${b.endsWith('.')?'':'.'}`));
+  }
+
+  if (d.mission || d.goals_short || d.goals_long) {
+    lines.push('');
+    lines.push('## My Goals');
+    if (d.mission) lines.push(`My professional mission is ${d.mission.charAt(0).toLowerCase()}${d.mission.slice(1)}${d.mission.endsWith('.')?'':'.'}`);
+    if (d.goals_short) lines.push(`My current short-term goal is ${d.goals_short.charAt(0).toLowerCase()}${d.goals_short.slice(1)}.`);
+    if (d.goals_long) lines.push(`My current long-term goal is ${d.goals_long.charAt(0).toLowerCase()}${d.goals_long.slice(1)}.`);
+  }
+
+  const always = arrFilter(d.always_rules).concat(arrFilter(d.custom_always));
+  const never = arrFilter(d.never_rules).concat(arrFilter(d.custom_never));
+  const uncertain = arrFilter(d.uncertainty_rules).concat(arrFilter(d.custom_uncertainty));
+  if (always.length || never.length || d.comm_style || d.os) {
+    lines.push('');
+    lines.push('## How I Prefer to Work with AI');
+    if (d.comm_style) lines.push(`I prefer ${d.comm_style.charAt(0).toLowerCase()}${d.comm_style.slice(1)}.`);
+    if (d.os || d.editor || d.shell) lines.push(`I use ${[d.os, d.editor, d.shell].filter(Boolean).join(', ')} as my primary tools.`);
+    always.forEach(r => lines.push(`Always ${r.charAt(0).toLowerCase()}${r.slice(1)}.`));
+    never.forEach(r => lines.push(`Never ${r.charAt(0).toLowerCase()}${r.slice(1)}.`));
+    uncertain.forEach(r => lines.push(`When you are uncertain, ${r.charAt(0).toLowerCase()}${r.slice(1)}.`));
+  }
+
+  return lines.join('\n');
+}
+
+function generateClaudeMD() {
+  return `<!-- Deployment: ~/.claude/CLAUDE.md (global) -->\n<!-- To scope to a single project, save as ./CLAUDE.md in the project root -->\n\n` + generateCanonical();
+}
+
+function generateChatGPTCI() {
+  const d = state.data;
+  // Field 1: About you (max 1500 chars)
+  let f1 = '';
+  if (d.name && d.role) f1 += `I'm ${d.name}, a ${d.role}. `;
+  else if (d.name) f1 += `I'm ${d.name}. `;
+  if (d.bio) { const short = d.bio.length > 300 ? d.bio.substring(0,297)+'...' : d.bio; f1 += short + '\n\n'; }
+  const exp = arrFilter(d.expertise);
+  if (exp.length) f1 += `Expertise: ${exp.slice(0,5).join(', ')}. `;
+  const learnA = arrFilter(d.learning_areas);
+  if (learnA.length) f1 += `Learning: ${learnA.slice(0,3).join(', ')}.\n\n`;
+  const beliefs = arrFilter(d.beliefs);
+  if (beliefs.length) f1 += `I believe: ${beliefs.slice(0,3).join('; ')}.\n\n`;
+  if (d.goals_short || d.mission) f1 += `Current focus: ${d.goals_short || d.mission}.\n\n`;
+  if (d.os || d.editor || d.languages) f1 += `Tools: ${[d.os,d.editor,d.languages].filter(Boolean).join(', ')}.`;
+
+  // Field 2: Response style (max 1500 chars)
+  let f2 = '';
+  if (d.comm_style) f2 += d.comm_style + '\n\n';
+  const always = arrFilter(d.always_rules).concat(arrFilter(d.custom_always));
+  if (always.length) f2 += `Always: ${always.slice(0,4).join(', ')}\n`;
+  const never = arrFilter(d.never_rules).concat(arrFilter(d.custom_never));
+  if (never.length) f2 += `Never: ${never.slice(0,4).join(', ')}\n`;
+  const uncertain = arrFilter(d.uncertainty_rules).concat(arrFilter(d.custom_uncertainty));
+  if (uncertain.length) f2 += `When uncertain: ${uncertain.slice(0,3).join(', ')}\n\n`;
+  const deep = arrFilter(d.deep_expertise);
+  if (deep.length) f2 += `I know ${deep.slice(0,4).join(', ')} well — be terse there.\n`;
+  if (learnA.length) f2 += `I'm learning ${learnA.slice(0,3).join(', ')} — explain those thoroughly.\n`;
+
+  // Truncate to 1500 chars
+  if (f1.length > 1500) f1 = f1.substring(0, 1497) + '...';
+  if (f2.length > 1500) f2 = f2.substring(0, 1497) + '...';
+
+  return { field1: f1.trim(), field2: f2.trim() };
+}
+
+function generateGeminiGem() {
+  const body = generateCanonical();
+  // Strip HTML comments and the "About This Document" preamble
+  const lines = body.split('\n');
+  const filtered = lines.filter(l => !l.startsWith('<!--'));
+  let clean = filtered.join('\n');
+  // Remove the "About This Document" section
+  clean = clean.replace(/## About This Document[\s\S]*?---/, '---');
+  return `You are a personal AI assistant. The following document describes who you are working with. Use it to ground all responses in this person's actual context, expertise, and preferences.\n\n---\n\n${clean.trim()}`;
+}
+
+function generateSystemPrompt() {
+  const body = generateCanonical();
+  // Strip HTML comments
+  const clean = body.split('\n').filter(l => !l.startsWith('<!--')).join('\n');
+  return `<user_context>\n${clean.trim()}\n</user_context>\n\nUse the above context to personalize all responses for this user.\nWhen the user's stated preferences conflict with generic best practices,\ndefer to the user's preferences unless doing so would cause harm.`;
+}
+
+function generatePAITelosFiles() {
+  const d = state.data;
+  const files = {};
+
+  // ABOUTME.md
+  let aboutme = '';
+  if (d.name) aboutme += `# About Me\n\n`;
+  if (d.name) aboutme += `**Name:** ${d.name}\n`;
+  if (d.preferred_name) aboutme += `**Goes by:** ${d.preferred_name}\n`;
+  if (d.role) aboutme += `**Role:** ${d.role}\n\n`;
+  if (d.bio) aboutme += d.bio + '\n\n';
+  const exp = arrFilter(d.expertise);
+  if (exp.length) aboutme += `**Expertise:** ${exp.join(', ')}\n`;
+  const learn = arrFilter(d.learning);
+  if (learn.length) aboutme += `**Learning:** ${learn.join(', ')}\n`;
+  files['ABOUTME.md'] = aboutme;
+
+  // MISSION.md
+  let mission = '# Mission\n\n';
+  if (d.mission) mission += d.mission + '\n';
+  files['MISSION.md'] = mission;
+
+  // GOALS.md
+  let goals = '# Goals\n\n';
+  if (d.goals_short) goals += `## Short-term\n${d.goals_short}\n\n`;
+  if (d.goals_medium) goals += `## Medium-term\n${d.goals_medium}\n\n`;
+  if (d.goals_long) goals += `## Long-term\n${d.goals_long}\n\n`;
+  files['GOALS.md'] = goals;
+
+  // BELIEFS.md
+  let beliefs = '# Beliefs\n\n';
+  arrFilter(d.beliefs).forEach(b => beliefs += `- ${b}\n`);
+  files['BELIEFS.md'] = beliefs;
+
+  // PROJECTS.md
+  let projects = '# Projects\n\n';
+  (d.projects || []).filter(p=>p.name).forEach(p => {
+    projects += `## ${p.name}\n**Status:** ${p.status}\n${p.desc}\n\n`;
+  });
+  files['PROJECTS.md'] = projects;
+
+  return files;
+}
+
+async function downloadPAITelos() {
+  const files = generatePAITelosFiles();
+  // Use JSZip if available, otherwise download individual files
+  // Simple approach: create a zip using the minimal zip implementation
+  try {
+    const zip = await createZip(files);
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(zip);
+    a.download = 'pai-telos-files.zip';
+    a.click();
+    URL.revokeObjectURL(a.href);
+    showExportResult('Downloaded PAI TELOS files as ZIP');
+  } catch(e) {
+    // Fallback: download files individually
+    Object.entries(files).forEach(([name, content]) => {
+      downloadFile(content, name, 'text/markdown');
+    });
+    showExportResult('Downloaded PAI TELOS files individually');
+  }
+}
+
+// Minimal ZIP file creation (no external dependencies)
+async function createZip(files) {
+  const entries = Object.entries(files);
+  const localHeaders = [];
+  const centralHeaders = [];
+  let offset = 0;
+
+  for (const [name, content] of entries) {
+    const nameBytes = new TextEncoder().encode(name);
+    const contentBytes = new TextEncoder().encode(content);
+    const crc = crc32(contentBytes);
+
+    // Local file header
+    const local = new Uint8Array(30 + nameBytes.length + contentBytes.length);
+    const lv = new DataView(local.buffer);
+    lv.setUint32(0, 0x04034b50, true); // signature
+    lv.setUint16(4, 20, true); // version needed
+    lv.setUint16(6, 0, true); // flags
+    lv.setUint16(8, 0, true); // compression (stored)
+    lv.setUint16(10, 0, true); // mod time
+    lv.setUint16(12, 0, true); // mod date
+    lv.setUint32(14, crc, true);
+    lv.setUint32(18, contentBytes.length, true); // compressed size
+    lv.setUint32(22, contentBytes.length, true); // uncompressed size
+    lv.setUint16(26, nameBytes.length, true);
+    lv.setUint16(28, 0, true); // extra field length
+    local.set(nameBytes, 30);
+    local.set(contentBytes, 30 + nameBytes.length);
+    localHeaders.push(local);
+
+    // Central directory header
+    const central = new Uint8Array(46 + nameBytes.length);
+    const cv = new DataView(central.buffer);
+    cv.setUint32(0, 0x02014b50, true);
+    cv.setUint16(4, 20, true); // version made by
+    cv.setUint16(6, 20, true); // version needed
+    cv.setUint16(8, 0, true); // flags
+    cv.setUint16(10, 0, true); // compression
+    cv.setUint16(12, 0, true); // mod time
+    cv.setUint16(14, 0, true); // mod date
+    cv.setUint32(16, crc, true);
+    cv.setUint32(20, contentBytes.length, true);
+    cv.setUint32(24, contentBytes.length, true);
+    cv.setUint16(28, nameBytes.length, true);
+    cv.setUint16(30, 0, true); // extra length
+    cv.setUint16(32, 0, true); // comment length
+    cv.setUint16(34, 0, true); // disk number
+    cv.setUint16(36, 0, true); // internal attrs
+    cv.setUint32(38, 0, true); // external attrs
+    cv.setUint32(42, offset, true); // local header offset
+    central.set(nameBytes, 46);
+    centralHeaders.push(central);
+
+    offset += local.length;
+  }
+
+  const centralDirOffset = offset;
+  let centralDirSize = 0;
+  centralHeaders.forEach(h => centralDirSize += h.length);
+
+  // End of central directory
+  const eocd = new Uint8Array(22);
+  const ev = new DataView(eocd.buffer);
+  ev.setUint32(0, 0x06054b50, true);
+  ev.setUint16(4, 0, true); // disk number
+  ev.setUint16(6, 0, true); // central dir disk
+  ev.setUint16(8, entries.length, true);
+  ev.setUint16(10, entries.length, true);
+  ev.setUint32(12, centralDirSize, true);
+  ev.setUint32(16, centralDirOffset, true);
+  ev.setUint16(20, 0, true); // comment length
+
+  const totalSize = offset + centralDirSize + 22;
+  const result = new Uint8Array(totalSize);
+  let pos = 0;
+  localHeaders.forEach(h => { result.set(h, pos); pos += h.length; });
+  centralHeaders.forEach(h => { result.set(h, pos); pos += h.length; });
+  result.set(eocd, pos);
+
+  return new Blob([result], { type: 'application/zip' });
+}
+
+function crc32(bytes) {
+  let crc = 0xFFFFFFFF;
+  for (let i = 0; i < bytes.length; i++) {
+    crc ^= bytes[i];
+    for (let j = 0; j < 8; j++) crc = (crc >>> 1) ^ (crc & 1 ? 0xEDB88320 : 0);
+  }
+  return (crc ^ 0xFFFFFFFF) >>> 0;
+}
+
+// ──────────────────────────────────────────────────────────
+// Utility functions
+// ──────────────────────────────────────────────────────────
+function countTokens(text) {
+  if (!text) return 0;
+  const chars = text.length;
+  const words = text.split(/\s+/).filter(Boolean).length;
+  return Math.ceil(Math.max(chars / 4, words * 1.3));
+}
+
+function downloadFile(content, filename, type) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([content], { type }));
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(a.href);
+  showExportResult('Downloaded ' + filename);
+}
+
+function copyText(text) {
+  navigator.clipboard.writeText(text).then(() => showExportResult('Copied to clipboard'));
+}
+
+function showExportResult(msg) {
+  const el = document.getElementById('exportResult');
+  el.textContent = msg;
+  el.className = 'export-result show success';
+  setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+function updatePreview() {
+  const md = generateCanonical();
+  const wrap = document.getElementById('previewWrap');
+  if (md && md.length > 50) {
+    wrap.innerHTML = '<div class="md-rendered">' + DOMPurify.sanitize(marked.parse(md)) + '</div>';
+  } else {
+    wrap.innerHTML = '<div class="preview-placeholder">Your personal constitution will appear here as you fill in each section.</div>';
+  }
+}
+
+// ──────────────────────────────────────────────────────────
+// Navigation
+// ──────────────────────────────────────────────────────────
+function renderStepper() {
+  const total = STEPS.length;
+  const pct = total > 1 ? (state.step / (total - 1)) * 100 : 0;
+  document.getElementById('progressLabel').textContent = STEPS[state.step].label;
+  document.getElementById('progressCount').textContent = `Step ${state.step + 1} of ${total}`;
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+function renderCurrentStep() {
+  const step = STEPS[state.step];
+  const formArea = document.getElementById('formArea');
+  const title = document.getElementById('formPanelTitle');
+  title.textContent = step.title;
+
+  document.getElementById('btnBack').disabled = (state.step === 0);
+  const btnNext = document.getElementById('btnNext');
+  btnNext.style.display = state.step === STEPS.length - 1 ? 'none' : '';
+
+  let html = '';
+  switch(step.id) {
+    case 'identity': html = renderIdentity(); break;
+    case 'beliefs': html = renderBeliefs(); break;
+    case 'goals': html = renderGoals(); break;
+    case 'working': html = renderWorking(); break;
+    case 'knowledge': html = renderKnowledge(); break;
+    case 'boundaries': html = renderBoundaries(); break;
+    case 'export': html = renderExport(); break;
+  }
+  formArea.innerHTML = html;
+  updatePreview();
+  renderStepper();
+}
+
+function startBuilder() {
+  document.getElementById('hero').style.display = 'none';
+  document.getElementById('builder').classList.add('active');
+  state.step = 0;
+  renderCurrentStep();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  debouncedSave();
+}
+
+function nextStep() {
+  if (state.step < STEPS.length - 1) {
+    state.step++;
+    renderCurrentStep();
+    window.scrollTo({ top: document.getElementById('builder').offsetTop - 80, behavior: 'smooth' });
+    debouncedSave();
+  }
+}
+
+function prevStep() {
+  if (state.step > 0) {
+    state.step--;
+    renderCurrentStep();
+    debouncedSave();
+  }
+}
+
+// ──────────────────────────────────────────────────────────
+// Init
+// ──────────────────────────────────────────────────────────
+(function init() {
+  const restored = loadState();
+  if (restored && state.step > 0) {
+    document.getElementById('hero').style.display = 'none';
+    document.getElementById('builder').classList.add('active');
+    renderCurrentStep();
+  }
+})();
+</script>
+</body>
+</html>
