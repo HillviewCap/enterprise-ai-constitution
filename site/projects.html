@@ -35,29 +35,29 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=JetBrains+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg-root: #0a0e17;
-  --bg-surface: #0d1929;
-  --bg-elevated: #111f36;
-  --border: #1a2744;
-  --text-primary: #f0f4f8;
-  --text-secondary: #8a9bb0;
-  --text-muted: #5e7089;
-  --text-bright: #c9d6e3;
-  --blue: #3b82f6;
-  --blue-dim: rgba(59,130,246,0.12);
-  --blue-text: #93c5fd;
-  --purple: #8b5cf6;
-  --purple-dim: rgba(139,92,246,0.12);
-  --purple-text: #c4b5fd;
-  --teal: #64c9cf;
-  --teal-dim: rgba(100,201,207,0.12);
-  --red: #ef4444;
-  --red-dim: rgba(239,68,68,0.08);
-  --amber: #f59e0b;
-  --amber-dim: rgba(245,158,11,0.10);
+  --bg-root:      #f6f1eb;
+  --bg-surface:   #ffffff;
+  --bg-elevated:  #faf7f3;
+  --border:       #d9cfc3;
+  --text-primary:   #2c2418;
+  --text-secondary: #5c4f3e;
+  --text-muted:     #8a7e6f;
+  --text-bright:    #3d3225;
+  --blue:        #4a6fa5;
+  --blue-dim:    rgba(74,111,165,0.10);
+  --blue-text:   #3b5d8f;
+  --purple:      #7b6b99;
+  --purple-dim:  rgba(123,107,153,0.10);
+  --purple-text: #6a5b87;
+  --teal:        #5a8a7a;
+  --teal-dim:    rgba(90,138,122,0.10);
+  --red:         #b85450;
+  --red-dim:     rgba(184,84,80,0.10);
+  --amber:       #c4883a;
+  --amber-dim:   rgba(196,136,58,0.10);
   --font-display: 'Fraunces', Georgia, serif;
-  --font-body: 'DM Sans', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Consolas', monospace;
+  --font-body:    'DM Sans', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', 'Consolas', monospace;
   --radius: 8px;
   --radius-lg: 12px;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
@@ -74,21 +74,15 @@ body {
   min-height: 100vh;
 }
 
-body::before {
-  content: '';
-  position: fixed; inset: 0;
-  background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.015) 1px, transparent 0);
-  background-size: 40px 40px;
-  pointer-events: none; z-index: 0;
-}
+/* Removed dot grid */
 
-a { color: var(--teal); text-decoration: none; }
+a { color: var(--sage, #5a7a64); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
 /* ── Top bar ── */
 .topbar {
   position: sticky; top: 0; z-index: 100;
-  background: rgba(10,14,23,0.88); backdrop-filter: blur(16px);
+  background: rgba(246,241,235,0.92); backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border); padding: 14px 0;
 }
 .topbar__inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
@@ -100,7 +94,7 @@ a:hover { text-decoration: underline; }
 .topbar__links { display: flex; align-items: center; gap: 20px; font-size: 0.875rem; }
 .topbar__links a { color: var(--text-secondary); transition: color 0.15s; }
 .topbar__links a:hover { color: var(--text-primary); text-decoration: none; }
-.topbar__links a.active { color: var(--teal); }
+.topbar__links a.active { color: var(--sage, #5a7a64); }
 
 /* ── Layout ── */
 .page { max-width: 800px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
@@ -134,7 +128,7 @@ a:hover { text-decoration: underline; }
   position: absolute;
   top: 0; left: 0;
   width: 4px; height: 100%;
-  background: var(--teal);
+  background: var(--sage, #5a7a64);
 }
 .about-section h2 {
   font-family: var(--font-display);
@@ -166,7 +160,8 @@ a:hover { text-decoration: underline; }
 .project-card:hover {
   border-color: var(--text-muted);
   transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 20px rgba(44,36,24,0.10);
+  border-color: var(--clay, #b07850);
   text-decoration: none;
 }
 
@@ -205,8 +200,8 @@ a:hover { text-decoration: underline; }
 .project-card__tag {
   font-family: var(--font-mono); font-size: 0.7rem;
   padding: 3px 10px; border-radius: 100px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(44,36,24,0.04);
+  border: 1px solid rgba(44,36,24,0.08);
   color: var(--text-muted);
 }
 
@@ -238,12 +233,13 @@ a:hover { text-decoration: underline; }
   <div class="topbar__inner">
     <a class="topbar__brand" href="index.html">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      Enterprise AI Constitution
+      Constitution Builder
     </a>
     <div class="topbar__links">
-      <a href="index.html">Builder</a>
+      <a href="index.html">Enterprise</a>
+      <a href="personal.html">Personal</a>
       <a href="deploy.html">Deploy</a>
-      <a href="projects.html" class="active">My Other Projects</a>
+      <a href="projects.html" class="active">Projects</a>
       <a href="https://github.com/HillviewCap/enterprise-ai-constitution" target="_blank" rel="noopener">GitHub</a>
     </div>
   </div>
@@ -279,7 +275,7 @@ a:hover { text-decoration: underline; }
       <div class="project-card__accent" style="background: var(--red);"></div>
       <div class="project-card__header">
         <span class="project-card__name">IronMonkey Threat Intelligence</span>
-        <span class="project-card__badge" style="background: var(--red-dim); color: var(--red); border: 1px solid rgba(239,68,68,0.2);">Platform</span>
+        <span class="project-card__badge" style="background: var(--red-dim); color: var(--red); border: 1px solid rgba(184,84,80,0.2);">Platform</span>
       </div>
       <div class="project-card__desc">Threat intelligence platform for industrial control systems and operational technology environments. Real-time monitoring, indicator enrichment, and adversary tracking for critical infrastructure defense.</div>
       <div class="project-card__tags">
@@ -298,7 +294,7 @@ a:hover { text-decoration: underline; }
       <div class="project-card__accent" style="background: var(--teal);"></div>
       <div class="project-card__header">
         <span class="project-card__name">Enterprise AI Constitution</span>
-        <span class="project-card__badge" style="background: var(--teal-dim); color: var(--teal); border: 1px solid rgba(100,201,207,0.2);">Open Source</span>
+        <span class="project-card__badge" style="background: var(--teal-dim); color: var(--teal); border: 1px solid rgba(90,138,122,0.2);">Open Source</span>
       </div>
       <div class="project-card__desc">Open framework for governing AI behavior at the organizational level. Build constitution documents that give AI systems organizational identity, authority boundaries, data handling rules, and behavioral mandates — with real-time token tracking and deployment guides for 20+ platforms.</div>
       <div class="project-card__tags">
@@ -317,7 +313,7 @@ a:hover { text-decoration: underline; }
       <div class="project-card__accent" style="background: var(--amber);"></div>
       <div class="project-card__header">
         <span class="project-card__name">FerroCodex</span>
-        <span class="project-card__badge" style="background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(245,158,11,0.2);">Open Source</span>
+        <span class="project-card__badge" style="background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(196,136,58,0.2);">Open Source</span>
       </div>
       <div class="project-card__desc">Secure configuration management platform purpose-built for operational technology environments. Version-controlled device configurations with audit trails, compliance validation, and change management for industrial control systems.</div>
       <div class="project-card__tags">
@@ -336,7 +332,7 @@ a:hover { text-decoration: underline; }
       <div class="project-card__accent" style="background: var(--purple);"></div>
       <div class="project-card__header">
         <span class="project-card__name">HAPR</span>
-        <span class="project-card__badge" style="background: var(--purple-dim); color: var(--purple-text); border: 1px solid rgba(139,92,246,0.2);">Open Source</span>
+        <span class="project-card__badge" style="background: var(--purple-dim); color: var(--purple-text); border: 1px solid rgba(123,107,153,0.2);">Open Source</span>
       </div>
       <div class="project-card__desc">HAProxy audit and reporting tool. Parses HAProxy configurations and logs to generate compliance-ready reports, identify security misconfigurations, and track changes across load balancer infrastructure.</div>
       <div class="project-card__tags">
@@ -355,7 +351,7 @@ a:hover { text-decoration: underline; }
       <div class="project-card__accent" style="background: var(--blue);"></div>
       <div class="project-card__header">
         <span class="project-card__name">llms-text.ai</span>
-        <span class="project-card__badge" style="background: var(--blue-dim); color: var(--blue-text); border: 1px solid rgba(59,130,246,0.2);">Resource</span>
+        <span class="project-card__badge" style="background: var(--blue-dim); color: var(--blue-text); border: 1px solid rgba(74,111,165,0.2);">Resource</span>
       </div>
       <div class="project-card__desc">A resource for the llms.txt standard — helping websites communicate with large language models through a structured, machine-readable format.</div>
       <div class="project-card__tags">
@@ -374,7 +370,7 @@ a:hover { text-decoration: underline; }
       <div class="project-card__accent" style="background: var(--teal);"></div>
       <div class="project-card__header">
         <span class="project-card__name">InfraSecAlliance Blog</span>
-        <span class="project-card__badge" style="background: var(--teal-dim); color: var(--teal); border: 1px solid rgba(100,201,207,0.2);">Blog</span>
+        <span class="project-card__badge" style="background: var(--teal-dim); color: var(--teal); border: 1px solid rgba(90,138,122,0.2);">Blog</span>
       </div>
       <div class="project-card__desc">Infrastructure security insights, OT cybersecurity perspectives, and industry analysis for critical infrastructure professionals.</div>
       <div class="project-card__tags">
